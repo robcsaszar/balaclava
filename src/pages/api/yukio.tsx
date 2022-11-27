@@ -113,7 +113,7 @@ export default async function handler() {
       // debug: true,
       headers: {
         "Content-Type": "image/png",
-        "Cache-Control": "s-maxage=1, stale-while-revalidate",
+        "Cache-Control": "public, max-age=60, s-maxage=60",
       },
       fonts: [
         {

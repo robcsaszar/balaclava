@@ -10,7 +10,7 @@ const interFont = fetch(
   new URL("../../assets/fonts/Inter-Bold.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
-const tornApi = `https://api.torn.com/user/?selections=profile&key=${process.env.TORN_API_KEY}`;
+const tornApi = `https://api.torn.com/user/?selections=profile&key=${process.env.NEXT_PUBLIC_TORN_API_KEY}`;
 
 interface TornResponse {
   rank: string;

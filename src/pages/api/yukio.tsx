@@ -79,7 +79,7 @@ export default async function handler() {
       <div
         style={{
           display: "flex",
-          backgroundImage: "url(http://localhost:3000/906148.png)",
+          backgroundImage: "url(https://balaclava.vercel.app/906148.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -89,7 +89,7 @@ export default async function handler() {
         }}
       >
         <div tw="flex flex-col absolute bg-white inset-2 rounded-lg p-2 w-1/3 bg-opacity-20">
-          <div tw="flex w-full items-center justify-between text-xl tracking-tight text-clip overflow-hidden">
+          <div tw="flex w-full items-center justify-between text-xl tracking-tight">
             <span tw="">{torn.name}</span>
             <span tw="px-1 bg-white bg-opacity-20 rounded-md ml-2">
               {torn.level}

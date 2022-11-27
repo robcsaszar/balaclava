@@ -111,10 +111,6 @@ export default async function handler() {
       height: 100,
       status: 200,
       // debug: true,
-      headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": "public, max-age=0, s-maxage=60",
-      },
       fonts: [
         {
           data: inter,

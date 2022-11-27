@@ -100,7 +100,7 @@ export default async function handler() {
           </div>
           <div tw="flex w-full items-center">
             <span tw="text-xs opacity-75">
-              {torn.status.state} · {torn.last_action.relative}
+              {torn.last_action.status} · {torn.status.state}
             </span>
           </div>
         </div>

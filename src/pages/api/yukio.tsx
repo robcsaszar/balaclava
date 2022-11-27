@@ -88,19 +88,19 @@ export default async function handler() {
           color: "white",
         }}
       >
-        <div tw="flex flex-col absolute bg-white inset-2 rounded-lg p-2 w-1/3 bg-opacity-20">
+        <div tw="flex flex-col justify-between absolute bg-white inset-2 rounded-lg p-2 w-1/3 bg-opacity-20">
           <div tw="flex w-full items-center justify-between text-xl tracking-tight">
             <span tw="">{torn.name}</span>
             <span tw="px-1 bg-white bg-opacity-20 rounded-md ml-2">
               {torn.level}
             </span>
           </div>
-          <div tw="flex w-full items-center">
+          <div tw="flex w-full items-center mb-auto">
             <span tw="text-sm opacity-75">{torn.rank}</span>
           </div>
           <div tw="flex w-full items-center">
-            <span tw="text-sm opacity-75">
-              {torn.last_action.status} · {torn.last_action.relative}
+            <span tw="text-xs opacity-75">
+              {torn.status.state} · {torn.last_action.relative}
             </span>
           </div>
         </div>

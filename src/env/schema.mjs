@@ -16,6 +16,7 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
   NEXT_PUBLIC_TORN_API_KEY: z.string(),
+  NEXT_PUBLIC_TORN_COMPANY_API_KEY: z.string(),
 });
 
 /**
@@ -26,4 +27,6 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_TORN_API_KEY: process.env.NEXT_PUBLIC_TORN_API_KEY,
+  NEXT_PUBLIC_TORN_COMPANY_API_KEY:
+    process.env.NEXT_PUBLIC_TORN_COMPANY_API_KEY,
 };

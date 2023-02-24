@@ -64,6 +64,7 @@ export default async function handler(req: NextRequest) {
   }
 
   const inter = await interFont;
+  const themeColor = "#18004b";
 
   return new ImageResponse(
     (
@@ -76,22 +77,28 @@ export default async function handler(req: NextRequest) {
           backgroundRepeat: "no-repeat",
           width: 600,
           height: 100,
-          color: "white",
+          color: themeColor,
         }}
       >
-        <div tw="flex flex-col justify-between absolute bg-white inset-2 rounded-lg p-2 w-1/3 bg-opacity-20">
+        <div
+          tw={`flex flex-col justify-between absolute bg-[${themeColor}] top-2 left-2 bottom-2 mr-auto rounded-lg p-2 bg-opacity-20`}
+        >
           <div tw="flex w-full items-center justify-between text-xl tracking-tight">
             <span tw="">{employee.name}</span>
-            <span tw="px-1 bg-white bg-opacity-20 rounded-md ml-2">
+            <span
+              tw={`px-1 bg-[${themeColor}] bg-opacity-20 border-[1px] border-opacity-50 rounded-md ml-2`}
+            >
               {employee.effectiveness.total}
             </span>
           </div>
           <div tw="flex w-full items-center mb-auto">
-            <span tw="text-sm opacity-75">{employee.days_in_company} days</span>
+            <span tw="text-sm opacity-85">
+              {employee.position} · {employee.days_in_company} days
+            </span>
           </div>
           <div tw="flex w-full items-center">
-            <span tw="text-xs opacity-75">
-              {employee.last_action.status} · {employee.status.state}
+            <span tw="text-xs opacity-65">
+              {employee.last_action.status} · {employee.last_action.relative}
             </span>
           </div>
         </div>

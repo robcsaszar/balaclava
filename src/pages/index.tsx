@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import Head from "next/head";
+import { trpc } from "../utils/trpc";
 
 function goBack(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
   e.preventDefault();
@@ -7,6 +8,7 @@ function goBack(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
 }
 
 const Home: NextPage = () => {
+  const result = trpc.faction.getFaction.useQuery({ factionId: "33007" });
   return (
     <>
       <Head>
@@ -16,7 +18,7 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="flex flex-col items-center justify-center gap-12 px-4 py-16 text-center ">
           <h1 className="text-5xl font-extrabold tracking-tight text-white">
-            Caught you{" "}
+            Caught you {result.data?.name}
             <span className="text-[hsl(280,100%,70%)]">snoopin&apos;</span>
           </h1>
           <button

@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ImageResponse } from "@vercel/og";
+import type { PlayerInformation } from "../../common/types";
 
 export const config = {
   runtime: "experimental-edge",
@@ -12,67 +13,11 @@ const interFont = fetch(
 
 const tornApi = `https://api.torn.com/user/?selections=profile&key=${process.env.NEXT_PUBLIC_TORN_API_KEY}`;
 
-interface TornResponse {
-  rank: string;
-  level: number;
-  gender: string;
-  property: string;
-  signup: string;
-  awards: number;
-  friends: number;
-  enemies: number;
-  forum_posts: number;
-  karma: number;
-  age: number;
-  role: string;
-  donator: 1;
-  player_id: number;
-  name: string;
-  property_id: number;
-  competition: null;
-  revivable: number;
-  life: {
-    current: number;
-    maximum: number;
-    increment: number;
-    interval: number;
-    ticktime: number;
-    fulltime: number;
-  };
-  status: {
-    description: string;
-    details: string;
-    state: string;
-    color: string;
-    until: number;
-  };
-  job: {
-    position: string;
-    company_id: number;
-    company_name: string;
-    company_type: number;
-  };
-  faction: {
-    position: string;
-    faction_id: number;
-    days_in_faction: number;
-    faction_name: string;
-    faction_tag: string;
-  };
-  states: {
-    hospital_timestamp: number;
-    jail_timestamp: number;
-  };
-  last_action: {
-    status: string;
-    timestamp: number;
-    relative: string;
-  };
-}
-
 export default async function handler() {
   const inter = await interFont;
-  const torn: TornResponse = await fetch(tornApi).then((res) => res.json());
+  const torn: PlayerInformation = await fetch(tornApi).then((res) =>
+    res.json()
+  );
 
   return new ImageResponse(
     (

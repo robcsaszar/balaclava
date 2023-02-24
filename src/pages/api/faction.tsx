@@ -2,28 +2,10 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
+import type { MemberInformation } from "../../common/types";
+
 const getFaction = `https://api.torn.com/faction/?selections=basic&key=${process.env.NEXT_PUBLIC_TORN_API_KEY}`;
 const getMemberStats = `https://api.torn.com/user/:ID?selections=personalstats&key=${process.env.NEXT_PUBLIC_TORN_API_KEY}`;
-
-interface MemberInformation {
-  member_id: string;
-  name: string;
-  position: string;
-  days_in_faction: number;
-  last_action: {
-    status: string;
-    timestamp: number;
-    relative: string;
-  };
-  status: {
-    description: string;
-    details: string;
-    state: string;
-    color: string;
-    until: number;
-  };
-  personalstats: Record<string, unknown>;
-}
 
 const sortObject = (obj: Record<string, unknown>) =>
   Object.keys(obj)
@@ -49,7 +31,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   res.setHeader("Content-Type", "application/json");
-  res.setHeader("Cache-Control", "s-maxage=1, stale-while-revalidate=59");
+  res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=300");
 
   return new Promise<void>(async (resolve) => {
     switch (req.method) {
@@ -67,6 +49,7 @@ export default async function handler(
               let { personalstats } = await member.json();
 
               if (req.query) {
+                // /api/faction?stat=awards
                 if (req.query.stat) {
                   const stat = req.query.stat as string;
                   if (personalstats[stat]) {

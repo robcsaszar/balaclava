@@ -27,7 +27,7 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  const tornApi = `https://api.torn.com/company/?selections=employees&comment=${id}&key=${process.env.NEXT_PUBLIC_TORN_COMPANY_API_KEY}`;
+  const tornApi = `https://api.torn.com/company/?selections=employees&comment=${id}&key=${process.env.NEXT_PUBLIC_TORN_LIMITED_API_KEY}`;
   const company: CompanyInformation = await fetch(tornApi).then((res) =>
     res.json()
   );

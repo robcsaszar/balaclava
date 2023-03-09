@@ -4,8 +4,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import type { MemberInformation } from "../../common/types";
 
-const getFaction = `https://api.torn.com/faction/?selections=basic&key=${process.env.NEXT_PUBLIC_TORN_API_KEY}`;
-const getMemberStats = `https://api.torn.com/user/:ID?selections=personalstats&key=${process.env.NEXT_PUBLIC_TORN_API_KEY}`;
+const getFaction = `https://api.torn.com/faction/?selections=basic&comment=getFaction&key=${process.env.NEXT_PUBLIC_TORN_MINIMAL_API_KEY}`;
+const getStats = `https://api.torn.com/user/:ID?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
 
 const sortObject = (obj: Record<string, unknown>) =>
   Object.keys(obj)
@@ -31,7 +31,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   res.setHeader("Content-Type", "application/json");
-  res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=300");
+  res.setHeader("Cache-Control", "s-maxage=30, stale-while-revalidate=31");
 
   return new Promise<void>(async (resolve) => {
     switch (req.method) {
@@ -43,9 +43,7 @@ export default async function handler(
           const memberIds = Object.keys(members);
           const memberInfo = await Promise.all(
             memberIds.map(async (memberId) => {
-              const member = await fetch(
-                getMemberStats.replace(":ID", memberId)
-              );
+              const member = await fetch(getStats.replace(":ID", memberId));
               let { personalstats } = await member.json();
 
               if (req.query) {

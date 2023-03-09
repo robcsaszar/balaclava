@@ -103,24 +103,19 @@ export default async function handler(req: NextRequest) {
           backgroundImage: `${
             withFeats ? "url(https://balaclava.vercel.app/feats.png), " : ""
           }url(https://balaclava.vercel.app/${factionId}.png)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover cover",
+          backgroundPosition: "center center",
+          backgroundRepeat: "no-repeat no-repeat",
           width: 600,
           height: 100,
           color: themeColor,
         }}
       >
         <div
-          tw={`flex flex-col justify-between absolute bg-[${themeColor}] top-2 left-2 bottom-2 mr-auto rounded-lg p-2 bg-opacity-20`}
+          tw={`flex flex-col justify-between bg-[${themeColor}] mx-auto rounded-lg p-2 bg-opacity-50`}
         >
-          <div tw="flex w-full items-center justify-between text-xl tracking-tight">
+          <div tw="flex w-full items-center justify-between text-xl tracking-tight ">
             <span tw="">{member.name}</span>
-            <span
-              tw={`px-1 bg-[${themeColor}] bg-opacity-20 border-[1px] border-opacity-50 rounded-md ml-2`}
-            >
-              {member.level}
-            </span>
           </div>
           <div tw="flex w-full items-center mb-auto">
             <span tw="text-sm opacity-85">

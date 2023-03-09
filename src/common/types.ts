@@ -124,3 +124,36 @@ export interface FactionInformation {
     [key: string]: MemberInformation;
   };
 }
+
+const PersonalStatCategories = [
+  "combat",
+  "trading",
+  "crime",
+  "weapons",
+  "medical",
+  "money",
+  "drugs",
+  "travel",
+  "faction",
+  "boosters",
+  "activity",
+  "job",
+  "racing",
+  "miscellaneous",
+] as const;
+type PersonalStatCategory =
+  typeof PersonalStatCategories[keyof typeof PersonalStatCategories];
+
+const PersonalStatTypes = ["time", "money", "number", "other"] as const;
+type PersonalStatType =
+  typeof PersonalStatTypes[keyof typeof PersonalStatTypes];
+
+export interface PersonalStat {
+  category: PersonalStatCategory;
+  label: string;
+  type: PersonalStatType;
+}
+
+export interface PersonalStats {
+  [key: string]: PersonalStat;
+}

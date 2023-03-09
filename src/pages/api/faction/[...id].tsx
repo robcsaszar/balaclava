@@ -2,17 +2,62 @@ import type {
   FactionInformation,
   MemberInformation,
 } from "../../../common/types";
+import HakaLeaf, { HakaLeafInverted } from "../../../ui/haka-leaf";
 
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
+import { personalStatistics } from "../../../lib/personal-stats";
 
 export const config = {
   runtime: "experimental-edge",
 };
 
-const interFont = fetch(
+const Inter_Bold = fetch(
   new URL("../../../assets/fonts/Inter-Bold.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
+const Inter_ExtraBold = fetch(
+  new URL("../../../assets/fonts/Inter-ExtraBold.otf", import.meta.url)
+).then((res) => res.arrayBuffer());
+
+function numberWithCommas(x: number) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function numberShortened(x: number) {
+  if (x >= 1000000000000) {
+    return (x / 1000000000000).toFixed(2).replace(/\.0$/, "") + "T";
+  }
+  if (x >= 1000000000) {
+    return (x / 1000000000).toFixed(2).replace(/\.0$/, "") + "B";
+  }
+  if (x >= 1000000) {
+    return (x / 1000000).toFixed(2).replace(/\.0$/, "") + "M";
+  }
+  if (x >= 1000) {
+    return (x / 1000).toFixed(2).replace(/\.0$/, "") + "K";
+  }
+  return x;
+}
+
+function secondsToDays(x: number) {
+  return Math.floor(x / 86400);
+}
+
+function formatNumberByDataType(value: number, datatype: string) {
+  if (datatype === "money") {
+    return `$${numberShortened(value)}`;
+  }
+
+  if (datatype === "number") {
+    return numberShortened(value);
+  }
+
+  if (datatype === "time") {
+    return `${secondsToDays(value)} days`;
+  }
+
+  return value;
+}
 
 export default async function handler(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -76,57 +121,82 @@ export default async function handler(req: NextRequest) {
     });
   }
 
+  const feats: JSX.Element[] = [];
   if (withFeats && featuredStats && featuredStats.length > 0) {
-    const feats = [];
     const getStats = `https://api.torn.com/user/${memberId}?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
     const { personalstats } = await fetch(getStats).then((res) => res.json());
-    featuredStats.forEach((stat) => {
-      if (personalstats[stat]) {
+    featuredStats.forEach((stat, i) => {
+      if (personalstats[stat] && personalStatistics[stat]) {
         feats.push(
-          <div tw="flex items-center justify-between text-sm tracking-tight">
-            <span tw="">{stat}</span>
-            <span tw="">{personalstats[stat]}</span>
+          <div key={i} tw="flex text-xs tracking-wide">
+            <span tw="mr-1">{personalStatistics[stat]?.label}:</span>
+            <span tw="">
+              {formatNumberByDataType(
+                personalstats[stat],
+                personalStatistics[stat]?.type as string
+              )}
+            </span>
           </div>
         );
       }
     });
   }
 
-  const inter = await interFont;
-  const themeColor = "#000";
+  const interBold = await Inter_Bold;
+  const interExtraBold = await Inter_ExtraBold;
+  const themeColor = "#fff";
 
   return new ImageResponse(
     (
       <div
         style={{
           display: "flex",
-          backgroundImage: `${
-            withFeats ? "url(https://balaclava.vercel.app/feats.png), " : ""
-          }url(https://balaclava.vercel.app/${factionId}.png)`,
-          backgroundSize: "cover cover",
-          backgroundPosition: "center center",
-          backgroundRepeat: "no-repeat no-repeat",
+          position: "relative",
+          backgroundImage: `url(https://balaclava.vercel.app/${factionId}.png)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
           width: 600,
           height: 100,
           color: themeColor,
         }}
       >
+        {withFeats && (
+          <div
+            tw="flex absolute bg-white bg-opacity-20 top-1/2 left-2 rounded-md px-3 py-2 items-start justify-end overflow-hidden"
+            style={{
+              transform: "translateY(-50%)",
+            }}
+          >
+            <div tw="flex absolute -bottom-4 -right-4 opacity-50">
+              <HakaLeaf />
+            </div>
+            <div tw="flex absolute -bottom-4 -left-4 opacity-50">
+              <HakaLeafInverted />
+            </div>
+            <span tw="flex flex-col my-auto">{feats}</span>
+          </div>
+        )}
         <div
-          tw={`flex flex-col justify-between bg-[${themeColor}] mx-auto rounded-lg p-2 bg-opacity-50`}
+          tw="flex absolute top-1/2 left-1/2"
+          style={{ transform: "translateY(-50%) translateX(-50%)" }}
         >
-          <div tw="flex w-full items-center justify-between text-xl tracking-tight ">
-            <span tw="">{member.name}</span>
-          </div>
-          <div tw="flex w-full items-center mb-auto">
-            <span tw="text-sm opacity-85">
-              {member.position} · {member.days_in_faction} days
+          <div tw="flex flex-col items-center justify-center">
+            <span tw="text-3xl font-extrabold tracking-tighter">
+              {member.name}
             </span>
           </div>
-          <div tw="flex w-full items-center">
-            <span tw="text-xs opacity-65">
-              {member.last_action.status} · {member.last_action.relative}
-            </span>
-          </div>
+        </div>
+        <div
+          tw="flex absolute bottom-1 left-1/2 flex-col items-center justify-center"
+          style={{ transform: "translateX(-50%)" }}
+        >
+          <span tw="text-sm opacity-85 leading-1.3">
+            {member.position} at {faction.name} · {member.days_in_faction} days
+          </span>
+          <span tw="text-xs opacity-50 leading-1">
+            {member.last_action.status} · {member.last_action.relative}
+          </span>
         </div>
       </div>
     ),
@@ -141,9 +211,14 @@ export default async function handler(req: NextRequest) {
       },
       fonts: [
         {
-          data: inter,
+          data: interBold,
           name: "Inter",
           style: "normal",
+        },
+        {
+          data: interExtraBold,
+          name: "Inter",
+          weight: 800,
         },
       ],
     }

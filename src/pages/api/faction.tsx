@@ -2,7 +2,7 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import type { MemberInformation } from "../../common/types";
+import type { MemberInformationWithId } from "../../common/types";
 
 const getFaction = `https://api.torn.com/faction/?selections=basic&comment=getFaction&key=${process.env.NEXT_PUBLIC_TORN_MINIMAL_API_KEY}`;
 const getStats = `https://api.torn.com/user/:ID?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
@@ -15,7 +15,7 @@ const sortObject = (obj: Record<string, unknown>) =>
       return result;
     }, {} as Record<string, unknown>);
 
-const sortMembers = (members: MemberInformation[]) =>
+const sortMembers = (members: MemberInformationWithId[]) =>
   members.sort((a, b) => {
     if (a.name < b.name) {
       return -1;
@@ -56,7 +56,7 @@ export default async function handler(
                 }
               }
 
-              const memberInformation: MemberInformation = {
+              const memberInformation: MemberInformationWithId = {
                 member_id: memberId,
                 ...members[memberId],
                 personalstats: sortObject(personalstats),

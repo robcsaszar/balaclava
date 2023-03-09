@@ -61,13 +61,17 @@ export interface PlayerInformation {
 }
 
 export interface MemberInformation {
-  member_id: string;
   name: string;
-  position: string;
+  level: number;
   days_in_faction: number;
   last_action: LastAction;
   status: Status;
+  position: string;
   personalstats: Record<string, unknown>;
+}
+
+export interface MemberInformationWithId extends MemberInformation {
+  member_id: string;
 }
 
 export interface EmployeeInformation {
@@ -92,5 +96,31 @@ export interface EmployeeInformation {
 export interface CompanyInformation {
   company_employees: {
     [key: string]: EmployeeInformation;
+  };
+}
+
+export interface FactionInformation {
+  ID: number;
+  name: string;
+  tag: string;
+  tag_image: string;
+  leader: number;
+  "co-leader": number;
+  respect: number;
+  age: number;
+  capacity: number;
+  best_chain: number;
+  ranked_wars: Record<string, unknown>;
+  raid_wars: Record<string, unknown>;
+  peace: Record<string, unknown>;
+  rank: {
+    level: number;
+    name: string;
+    division: number;
+    position: number;
+    wins: number;
+  };
+  members: {
+    [key: string]: MemberInformation;
   };
 }

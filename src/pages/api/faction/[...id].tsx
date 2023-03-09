@@ -17,6 +17,8 @@ const interFont = fetch(
 export default async function handler(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const ids = searchParams.getAll("id");
+  const withFeats = !!searchParams.get("feats");
+  const featuredStats = searchParams.get("stats")?.split(",");
 
   if (!ids || !ids[0] || !ids[1]) {
     return new Response("No IDs provided", {
@@ -74,11 +76,21 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  const weekAgoUnix = Math.floor(Date.now() / 1000) - 604800;
-  const todayUnix = Math.floor(Date.now() / 1000);
-  const getStats = `https://api.torn.com/user/${memberId}?selections=personalstats&from=${weekAgoUnix}&to=${todayUnix}&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
-  const stats = await fetch(getStats).then((res) => res.json());
-  console.log(stats);
+  if (withFeats && featuredStats && featuredStats.length > 0) {
+    const feats = [];
+    const getStats = `https://api.torn.com/user/${memberId}?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
+    const { personalstats } = await fetch(getStats).then((res) => res.json());
+    featuredStats.forEach((stat) => {
+      if (personalstats[stat]) {
+        feats.push(
+          <div tw="flex items-center justify-between text-sm tracking-tight">
+            <span tw="">{stat}</span>
+            <span tw="">{personalstats[stat]}</span>
+          </div>
+        );
+      }
+    });
+  }
 
   const inter = await interFont;
   const themeColor = "#000";
@@ -88,7 +100,9 @@ export default async function handler(req: NextRequest) {
       <div
         style={{
           display: "flex",
-          backgroundImage: `url(https://balaclava.vercel.app/${factionId}.png)`,
+          backgroundImage: `${
+            withFeats ? "url(https://balaclava.vercel.app/feats.png), " : ""
+          }url(https://balaclava.vercel.app/${factionId}.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

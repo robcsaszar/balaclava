@@ -81,7 +81,7 @@ export default async function handler(req: NextRequest) {
   console.log(stats);
 
   const inter = await interFont;
-  const themeColor = "#fff";
+  const themeColor = "#000";
 
   return new ImageResponse(
     (

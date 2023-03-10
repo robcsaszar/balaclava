@@ -6,6 +6,7 @@ import HakaLeaf, { HakaLeafInverted } from "../../../ui/haka-leaf";
 
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
+import { formatNumberByDataType } from "../../../utils/data-formatting";
 import { personalStatistics } from "../../../lib/personal-stats";
 
 export const config = {
@@ -18,42 +19,6 @@ const Inter_Bold = fetch(
 const Inter_ExtraBold = fetch(
   new URL("../../../assets/fonts/Inter-ExtraBold.otf", import.meta.url)
 ).then((res) => res.arrayBuffer());
-
-function numberShortened(x: number) {
-  if (x >= 1000000000000) {
-    return (x / 1000000000000).toFixed(2).replace(/\.0$/, "") + "T";
-  }
-  if (x >= 1000000000) {
-    return (x / 1000000000).toFixed(2).replace(/\.0$/, "") + "B";
-  }
-  if (x >= 1000000) {
-    return (x / 1000000).toFixed(2).replace(/\.0$/, "") + "M";
-  }
-  if (x >= 1000) {
-    return (x / 1000).toFixed(2).replace(/\.0$/, "") + "K";
-  }
-  return x;
-}
-
-function secondsToDays(x: number) {
-  return Math.floor(x / 86400);
-}
-
-function formatNumberByDataType(value: number, datatype: string) {
-  if (datatype === "money") {
-    return `$${numberShortened(value)}`;
-  }
-
-  if (datatype === "number") {
-    return numberShortened(value);
-  }
-
-  if (datatype === "time") {
-    return `${secondsToDays(value)} days`;
-  }
-
-  return value;
-}
 
 export default async function handler(req: NextRequest) {
   if (req.method !== "GET") {
@@ -74,13 +39,13 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  console.log(req);
   const { searchParams } = new URL(req.url);
-  const ids = searchParams.get("slug")?.split(",");
+  const id = searchParams.get("id");
+  const user = searchParams.get("user");
   const withFeats = !!searchParams.get("feats");
   const featuredStats = searchParams.get("stats")?.split(",");
 
-  if (!ids || !ids[0] || !ids[1]) {
+  if (!id || !id[0] || !id[1]) {
     return new Response("No IDs provided", {
       status: 400,
       headers: {
@@ -89,8 +54,8 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  if (ids.length > 2) {
-    return new Response("Too many IDs provided", {
+  if (!user) {
+    return new Response("No user ID provided", {
       status: 400,
       headers: {
         "Content-Type": "text/plain",
@@ -98,10 +63,7 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  const factionId = ids[0];
-  const memberId = ids[1];
-
-  const getFaction = `https://api.torn.com/faction/${factionId}?selections=basic&comment=getFaction&key=${process.env.NEXT_PUBLIC_TORN_MINIMAL_API_KEY}`;
+  const getFaction = `https://api.torn.com/faction/${id}?selections=basic&comment=getFaction&key=${process.env.NEXT_PUBLIC_TORN_MINIMAL_API_KEY}`;
 
   const faction: FactionInformation = await fetch(getFaction).then((res) =>
     res.json()
@@ -116,7 +78,7 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  if (!faction.members[memberId]) {
+  if (!faction.members[user]) {
     return new Response("Invalid member ID provided", {
       status: 400,
       headers: {
@@ -125,7 +87,7 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  const member: MemberInformation | undefined = faction.members[memberId];
+  const member: MemberInformation | undefined = faction.members[user];
 
   if (!member) {
     return new Response("Invalid member ID provided", {
@@ -138,7 +100,7 @@ export default async function handler(req: NextRequest) {
 
   const feats: JSX.Element[] = [];
   if (withFeats && featuredStats && featuredStats.length > 0) {
-    const getStats = `https://api.torn.com/user/${memberId}?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
+    const getStats = `https://api.torn.com/user/${user}?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
     const { personalstats } = await fetch(getStats).then((res) => res.json());
     featuredStats.forEach((stat, i) => {
       if (personalstats[stat] && personalStatistics[stat]) {
@@ -167,7 +129,7 @@ export default async function handler(req: NextRequest) {
         style={{
           display: "flex",
           position: "relative",
-          backgroundImage: `url(https://balaclava.vercel.app/${factionId}.png)`,
+          backgroundImage: `url(https://balaclava.vercel.app/${id}.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

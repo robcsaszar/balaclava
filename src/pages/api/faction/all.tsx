@@ -2,7 +2,7 @@
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import type { MemberInformationWithId } from "../../common/types";
+import type { MemberInformationWithId } from "../../../common/types";
 
 const getFaction = `https://api.torn.com/faction/?selections=basic&comment=getFaction&key=${process.env.NEXT_PUBLIC_TORN_MINIMAL_API_KEY}`;
 const getStats = `https://api.torn.com/user/:ID?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;

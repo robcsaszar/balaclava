@@ -2,10 +2,11 @@ import type {
   FactionInformation,
   MemberInformation,
 } from "../../../common/types";
+import { GetStaticPaths, GetStaticProps } from "next";
 import HakaLeaf, { HakaLeafInverted } from "../../../ui/haka-leaf";
 
 import { ImageResponse } from "@vercel/og";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { personalStatistics } from "../../../lib/personal-stats";
 
 export const config = {
@@ -55,7 +56,7 @@ function formatNumberByDataType(value: number, datatype: string) {
   return value;
 }
 
-export default async function handler(req: NextApiRequest) {
+export default async function handler(req: NextRequest) {
   if (req.method !== "GET") {
     return new Response("Method not allowed", {
       status: 405,
@@ -73,9 +74,7 @@ export default async function handler(req: NextApiRequest) {
       },
     });
   }
-  const { searchParams } = new URL(req.url, `http://${req.headers.host}`) as {
-    searchParams: URLSearchParams;
-  };
+  const { searchParams } = new URL(req.url);
   const ids = searchParams.getAll("slug");
   const withFeats = !!searchParams.get("feats");
   const featuredStats = searchParams.get("stats")?.split(",");

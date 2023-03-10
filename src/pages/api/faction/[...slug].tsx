@@ -2,7 +2,6 @@ import type {
   FactionInformation,
   MemberInformation,
 } from "../../../common/types";
-import { GetStaticPaths, GetStaticProps } from "next";
 import HakaLeaf, { HakaLeafInverted } from "../../../ui/haka-leaf";
 
 import { ImageResponse } from "@vercel/og";
@@ -74,8 +73,10 @@ export default async function handler(req: NextRequest) {
       },
     });
   }
+
+  console.log(req);
   const { searchParams } = new URL(req.url);
-  const ids = searchParams.getAll("slug");
+  const ids = searchParams.get("slug")?.split(",");
   const withFeats = !!searchParams.get("feats");
   const featuredStats = searchParams.get("stats")?.split(",");
 

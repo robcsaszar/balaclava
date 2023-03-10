@@ -20,7 +20,7 @@ export function secondsToDays(x: number) {
   const minutes = Math.floor((x % 3600) / 60);
   const seconds = Math.floor(x % 60);
 
-  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  return `${days}d ${hours}h`;
 }
 
 export function formatNumberByDataType(value: number, datatype: string) {
@@ -33,7 +33,7 @@ export function formatNumberByDataType(value: number, datatype: string) {
   }
 
   if (datatype === "time") {
-    return `${secondsToDays(value)} days`;
+    return `${secondsToDays(value)}`;
   }
 
   return value;

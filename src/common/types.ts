@@ -144,7 +144,13 @@ const PersonalStatCategories = [
 type PersonalStatCategory =
   typeof PersonalStatCategories[keyof typeof PersonalStatCategories];
 
-const PersonalStatTypes = ["time", "money", "number", "other"] as const;
+const PersonalStatTypes = [
+  "time",
+  "money",
+  "number",
+  "percentage",
+  "other",
+] as const;
 type PersonalStatType =
   typeof PersonalStatTypes[keyof typeof PersonalStatTypes];
 

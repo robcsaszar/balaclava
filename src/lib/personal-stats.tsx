@@ -1,6 +1,36 @@
 import type { PersonalStats } from "../common/types";
 
 export const personalStatistics: PersonalStats = {
+  kda: {
+    label: "KDA",
+    category: "combat",
+    type: "number",
+  },
+  costperrehab: {
+    label: "Cost per rehab",
+    category: "drugs",
+    type: "money",
+  },
+  hitrate: {
+    label: "Hit rate",
+    category: "combat",
+    type: "percentage",
+  },
+  factionhits: {
+    label: "Organized hits",
+    category: "faction",
+    type: "number",
+  },
+  stealth: {
+    label: "Stealth hits",
+    category: "combat",
+    type: "percentage",
+  },
+  damageperhit: {
+    label: "Avg. damage per hit",
+    category: "combat",
+    type: "number",
+  },
   useractivity: {
     label: "User activity",
     category: "activity",

@@ -19,10 +19,6 @@ const Inter_ExtraBold = fetch(
   new URL("../../../assets/fonts/Inter-ExtraBold.otf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
-function numberWithCommas(x: number) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
 function numberShortened(x: number) {
   if (x >= 1000000000000) {
     return (x / 1000000000000).toFixed(2).replace(/\.0$/, "") + "T";
@@ -61,7 +57,7 @@ function formatNumberByDataType(value: number, datatype: string) {
 
 export default async function handler(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const ids = searchParams.getAll("id");
+  const ids = searchParams.getAll("slug");
   const withFeats = !!searchParams.get("feats");
   const featuredStats = searchParams.get("stats")?.split(",");
 
@@ -125,6 +121,7 @@ export default async function handler(req: NextRequest) {
   if (withFeats && featuredStats && featuredStats.length > 0) {
     const getStats = `https://api.torn.com/user/${memberId}?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
     const { personalstats } = await fetch(getStats).then((res) => res.json());
+    console.log(getStats);
     featuredStats.forEach((stat, i) => {
       if (personalstats[stat] && personalStatistics[stat]) {
         feats.push(

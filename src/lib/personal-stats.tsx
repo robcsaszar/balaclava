@@ -12,7 +12,7 @@ export const personalStatistics: PersonalStats = {
     type: "number",
   },
   bestactivestreak: {
-    label: "Best active streak",
+    label: "Best streak",
     category: "activity",
     type: "number",
   },
@@ -27,7 +27,7 @@ export const personalStatistics: PersonalStats = {
     type: "number",
   },
   itemsboughtabroad: {
-    label: "Items bought abroad",
+    label: "Shopped abroad",
     category: "trading",
     type: "number",
   },
@@ -102,7 +102,7 @@ export const personalStatistics: PersonalStats = {
     type: "number",
   },
   respectforfaction: {
-    label: "Respect for faction",
+    label: "Respect earned",
     category: "faction",
     type: "number",
   },

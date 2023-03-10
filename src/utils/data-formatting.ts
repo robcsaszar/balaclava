@@ -15,7 +15,12 @@ export function numberShortened(x: number) {
 }
 
 export function secondsToDays(x: number) {
-  return Math.floor(x / 86400);
+  const days = Math.floor(x / 86400);
+  const hours = Math.floor((x % 86400) / 3600);
+  const minutes = Math.floor((x % 3600) / 60);
+  const seconds = Math.floor(x % 60);
+
+  return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 export function formatNumberByDataType(value: number, datatype: string) {

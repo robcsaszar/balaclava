@@ -5,7 +5,7 @@ import type {
 import HakaLeaf, { HakaLeafInverted } from "../../../ui/haka-leaf";
 
 import { ImageResponse } from "@vercel/og";
-import type { NextRequest } from "next/server";
+import type { NextApiRequest } from "next";
 import { personalStatistics } from "../../../lib/personal-stats";
 
 export const config = {
@@ -55,8 +55,27 @@ function formatNumberByDataType(value: number, datatype: string) {
   return value;
 }
 
-export default async function handler(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+export default async function handler(req: NextApiRequest) {
+  if (req.method !== "GET") {
+    return new Response("Method not allowed", {
+      status: 405,
+      headers: {
+        Allow: "GET",
+      },
+    });
+  }
+
+  if (!req.url) {
+    return new Response("No URL provided", {
+      status: 400,
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    });
+  }
+  const { searchParams } = new URL(req.url, `http://${req.headers.host}`) as {
+    searchParams: URLSearchParams;
+  };
   const ids = searchParams.getAll("slug");
   const withFeats = !!searchParams.get("feats");
   const featuredStats = searchParams.get("stats")?.split(",");
@@ -121,7 +140,6 @@ export default async function handler(req: NextRequest) {
   if (withFeats && featuredStats && featuredStats.length > 0) {
     const getStats = `https://api.torn.com/user/${memberId}?selections=personalstats&comment=getStats&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;
     const { personalstats } = await fetch(getStats).then((res) => res.json());
-    console.log(getStats);
     featuredStats.forEach((stat, i) => {
       if (personalstats[stat] && personalStatistics[stat]) {
         feats.push(

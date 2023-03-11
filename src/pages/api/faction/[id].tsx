@@ -41,6 +41,7 @@ export default async function handler(req: NextRequest) {
   const id = searchParams.get("id");
   const user = searchParams.get("user");
   const withFeats = !!searchParams.get("feats");
+  const rounded = !!searchParams.get("rounded");
 
   if (!id) {
     return new Response("No faction ID provided", {
@@ -170,9 +171,11 @@ export default async function handler(req: NextRequest) {
   const interExtraBold = await Inter_ExtraBold;
   const themeColor = "#ffffff";
 
+  console.log(rounded);
   return new ImageResponse(
     (
       <div
+        tw={`${rounded ? "rounded-xl" : ""}`}
         style={{
           display: "flex",
           position: "relative",
@@ -183,6 +186,7 @@ export default async function handler(req: NextRequest) {
           width: 600,
           height: 100,
           color: themeColor,
+          backgroundColor: "transparent",
         }}
       >
         {withFeats && (

@@ -11,7 +11,9 @@ export function numberShortened(x: number) {
   if (x >= 1000) {
     return (x / 1000).toFixed(2).replace(/\.0$/, "") + "K";
   }
-  return x.toFixed(2);
+  if (x % 1 === 0) {
+    return x.toFixed(0);
+  }
 }
 
 export function secondsToDays(x: number) {

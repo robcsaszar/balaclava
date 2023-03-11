@@ -40,8 +40,7 @@ export default async function handler(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
   const user = searchParams.get("user");
-  const withFeats = !!searchParams.get("feats");
-  const rounded = !!searchParams.get("rounded");
+  const rounded = searchParams.get("rounded") === "true";
 
   if (!id) {
     return new Response("No faction ID provided", {
@@ -111,10 +110,11 @@ export default async function handler(req: NextRequest) {
 
   const featuredStats = searchParams.get("stats")?.split(",");
   const feats: JSX.Element[] = [];
-  if (withFeats && featuredStats && featuredStats.length > 0) {
-    const { personalstats } = await fetch(factions.getStats(user)).then((res) =>
-      res.json()
-    );
+  const { personalstats } = await fetch(factions.getStats(user)).then((res) =>
+    res.json()
+  );
+
+  if (featuredStats) {
     featuredStats.forEach((stat, i) => {
       if (personalStatistics[stat]) {
         let statValue: number;
@@ -171,7 +171,6 @@ export default async function handler(req: NextRequest) {
   const interExtraBold = await Inter_ExtraBold;
   const themeColor = "#ffffff";
 
-  console.log(rounded);
   return new ImageResponse(
     (
       <div
@@ -189,7 +188,7 @@ export default async function handler(req: NextRequest) {
           backgroundColor: "transparent",
         }}
       >
-        {withFeats && (
+        {featuredStats && (
           <div
             tw={`flex absolute bg-[${themeColor}] bg-opacity-20 top-1/2 left-2 rounded-md px-3 py-2 items-start justify-end overflow-hidden`}
             style={{

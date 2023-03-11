@@ -139,6 +139,7 @@ const PersonalStatCategories = [
   "activity",
   "job",
   "racing",
+  "education",
   "miscellaneous",
 ] as const;
 type PersonalStatCategory =
@@ -149,6 +150,7 @@ const PersonalStatTypes = [
   "money",
   "number",
   "percentage",
+  "blood",
   "other",
 ] as const;
 type PersonalStatType =

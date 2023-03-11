@@ -47,5 +47,9 @@ export function formatNumberByDataType(value: number, datatype: string) {
     return `${secondsToDays(value)}`;
   }
 
+  if (datatype === "blood") {
+    return `${numberShortened(value)} liters`;
+  }
+
   return value;
 }

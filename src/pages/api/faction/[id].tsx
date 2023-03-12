@@ -152,6 +152,8 @@ export default async function handler(req: NextRequest) {
           statValue = personalstats.attackdamage / personalstats.attackhits;
         } else if (stat === "bloodliters") {
           statValue = personalstats.bloodwithdrawn / 2;
+        } else if (stat === "beersdrunk") {
+          statValue = personalstats.alcoholused * 0.33;
         } else {
           statValue = personalstats[stat];
         }

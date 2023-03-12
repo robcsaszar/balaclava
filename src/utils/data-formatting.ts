@@ -11,7 +11,7 @@ export function numberShortened(x: number) {
     }
 
     x = x / trillion;
-    return `${x.toFixed(1)}T`;
+    return `${x.toFixed(2)}T`;
   }
 
   if (x >= billion) {
@@ -21,7 +21,7 @@ export function numberShortened(x: number) {
     }
 
     x = x / billion;
-    return `${x.toFixed(1)}B`;
+    return `${x.toFixed(2)}B`;
   }
 
   if (x >= million) {
@@ -31,7 +31,7 @@ export function numberShortened(x: number) {
     }
 
     x = x / million;
-    return `${x.toFixed(1)}M`;
+    return `${x.toFixed(2)}M`;
   }
 
   if (x >= thousand) {
@@ -41,7 +41,7 @@ export function numberShortened(x: number) {
     }
 
     x = x / thousand;
-    return `${x.toFixed(1)}K`;
+    return `${x.toFixed(2)}K`;
   }
 
   if (x % 1 === 0) {

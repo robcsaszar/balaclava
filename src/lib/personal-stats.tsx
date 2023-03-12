@@ -36,6 +36,11 @@ const specialStats: PersonalStats = {
     category: "medical",
     type: "liquid",
   },
+  beersdrunk: {
+    label: "Beers drunk",
+    category: "boosters",
+    type: "liquid",
+  },
 };
 
 const personalStats: PersonalStats = {

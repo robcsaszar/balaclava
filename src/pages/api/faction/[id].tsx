@@ -44,6 +44,7 @@ export default async function handler(req: NextRequest) {
   const id = searchParams.get("id");
   const user = searchParams.get("user");
   const rounded = searchParams.get("rounded") === "true";
+  const align = searchParams.get("align") || "center";
 
   if (!id) {
     return new Response("No faction ID provided", {
@@ -179,56 +180,59 @@ export default async function handler(req: NextRequest) {
   return new ImageResponse(
     (
       <div
-        tw={`${rounded ? "rounded-xl" : ""} flex flex-col relative`}
-        style={{
-          width: 600,
-          height: 100,
-          color: themeColor,
-        }}
+        tw={`flex relative text-white overflow-hidden ${
+          rounded ? "rounded-xl" : ""
+        }`}
       >
         <img
           src={`https://balaclava.vercel.app/${id}.png`}
           alt={`Faction image for faction ${faction.name}`}
         />
-        {featuredStats && (
-          <div
-            tw={`flex absolute bg-[${themeColor}] bg-opacity-20 top-1/2 left-2 rounded-md px-3 py-2 items-start justify-end overflow-hidden`}
-            style={{
-              transform: "translateY(-50%)",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-            }}
-          >
-            <div tw="flex absolute -bottom-4 -right-4 opacity-20">
-              <HakaLeaf color={themeColor} />
-            </div>
-            <div tw="flex absolute -bottom-4 -left-4 opacity-20">
-              <HakaLeafInverted color={themeColor} />
-            </div>
-            <span tw="flex flex-col my-auto">{feats}</span>
-          </div>
-        )}
         <div
-          tw="flex absolute top-1/2 left-1/2"
-          style={{ transform: "translateY(-50%) translateX(-50%)" }}
+          tw={`flex absolute top-2 right-2 bottom-2 left-2 justify-center items-${align}`}
         >
-          <div tw="flex flex-col items-center justify-center">
-            <span tw="text-3xl font-extrabold tracking-tighter">
-              {member.name}
-            </span>
+          <div tw="relative w-1/3 h-full flex items-center">
+            <div
+              tw={`flex bg-[${themeColor}] rounded-lg bg-opacity-30 px-3 py-2 items-start justify-end overflow-hidden`}
+            >
+              <div tw="flex absolute -bottom-4 -right-4 opacity-20">
+                <HakaLeaf color={themeColor} />
+              </div>
+              <div tw="flex absolute -bottom-4 -left-4 opacity-20">
+                <HakaLeafInverted color={themeColor} />
+              </div>
+              <span tw="flex flex-col my-auto">{feats}</span>
+            </div>
           </div>
-        </div>
-        <div
-          tw="flex absolute bottom-1 left-1/2 flex-col items-center justify-center"
-          style={{ transform: "translateX(-50%)" }}
-        >
-          <span tw="text-sm opacity-85 leading-1.3">
-            {member.position} of {faction.name}
-          </span>
-          <span tw="text-xs opacity-50 leading-1">
-            {member.days_in_faction} days · {member.last_action.status} ·{" "}
-            {member.last_action.relative}
-          </span>
+          <div tw="flex w-1/3">
+            <div tw="relative w-full flex items-center flex-col">
+              <span tw="text-3xl font-extrabold tracking-tighter leading-1">
+                {member.name}
+              </span>
+              <div
+                tw={`flex flex-col absolute top-full items-center ${
+                  align === "end" ? "opacity-0" : "opacity-100"
+                }`}
+              >
+                <span tw="text-sm opacity-85 leading-1.3">
+                  {member.position} of {faction.name}
+                </span>
+                <span tw="text-xs opacity-70 leading-1">
+                  {member.days_in_faction} days · {member.last_action.status} ·{" "}
+                  {member.last_action.relative}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div tw="flex w-1/3 px-2">
+            <div tw="flex">
+              <img
+                tw="w-full"
+                src={`https://balaclava.vercel.app/logo_${id}.svg`}
+                alt={`Faction logo for faction ${faction.name}`}
+              />
+            </div>
+          </div>
         </div>
       </div>
     ),

@@ -1,6 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
+
 import type { FactionInformation, MemberInformation } from "@/common/types";
 import HakaLeaf, { HakaLeafInverted } from "@/ui/haka-leaf";
 
+import Image from "next/image";
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
 import { factions } from "@/lib/factions";
@@ -176,25 +179,24 @@ export default async function handler(req: NextRequest) {
   return new ImageResponse(
     (
       <div
-        tw={`${rounded ? "rounded-xl" : ""}`}
+        tw={`${rounded ? "rounded-xl" : ""} flex flex-col relative`}
         style={{
-          display: "flex",
-          position: "relative",
-          backgroundImage: `url(https://balaclava.vercel.app/${id}.png)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           width: 600,
           height: 100,
           color: themeColor,
-          backgroundColor: "transparent",
         }}
       >
+        <img
+          src={`https://balaclava.vercel.app/${id}.png`}
+          alt={`Faction image for faction ${faction.name}`}
+        />
         {featuredStats && (
           <div
             tw={`flex absolute bg-[${themeColor}] bg-opacity-20 top-1/2 left-2 rounded-md px-3 py-2 items-start justify-end overflow-hidden`}
             style={{
               transform: "translateY(-50%)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
             }}
           >
             <div tw="flex absolute -bottom-4 -right-4 opacity-20">

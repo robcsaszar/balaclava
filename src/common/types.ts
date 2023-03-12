@@ -150,7 +150,7 @@ const PersonalStatTypes = [
   "money",
   "number",
   "percentage",
-  "blood",
+  "liquid",
   "other",
 ] as const;
 type PersonalStatType =

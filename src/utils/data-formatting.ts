@@ -1,19 +1,54 @@
 export function numberShortened(x: number) {
-  if (x >= 1000000000000) {
-    return (x / 1000000000000).toFixed(2).replace(/\.0$/, "") + "T";
+  const trillion = 10e11;
+  const billion = 10e8;
+  const million = 10e5;
+  const thousand = 10e2;
+
+  if (x >= trillion) {
+    if (x % trillion === 0) {
+      x = x / trillion;
+      return `${x}T`;
+    }
+
+    x = x / trillion;
+    return `${x.toFixed(1)}T`;
   }
-  if (x >= 1000000000) {
-    return (x / 1000000000).toFixed(2).replace(/\.0$/, "") + "B";
+
+  if (x >= billion) {
+    if (x % billion === 0) {
+      x = x / billion;
+      return `${x}B`;
+    }
+
+    x = x / billion;
+    return `${x.toFixed(1)}B`;
   }
-  if (x >= 1000000) {
-    return (x / 1000000).toFixed(2).replace(/\.0$/, "") + "M";
+
+  if (x >= million) {
+    if (x % million === 0) {
+      x = x / million;
+      return `${x}M`;
+    }
+
+    x = x / million;
+    return `${x.toFixed(1)}M`;
   }
-  if (x >= 1000) {
-    return (x / 1000).toFixed(2).replace(/\.0$/, "") + "K";
+
+  if (x >= thousand) {
+    if (x % thousand === 0) {
+      x = x / thousand;
+      return `${x}K`;
+    }
+
+    x = x / thousand;
+    return `${x.toFixed(1)}K`;
   }
+
   if (x % 1 === 0) {
-    return x.toFixed(0);
+    return `${x}`;
   }
+
+  return `${x.toFixed(2)}`;
 }
 
 export function secondsToDays(x: number) {
@@ -49,7 +84,7 @@ export function formatNumberByDataType(value: number, datatype: string) {
     return `${secondsToDays(value)}`;
   }
 
-  if (datatype === "blood") {
+  if (datatype === "liquid") {
     return `${numberShortened(value)} liters`;
   }
 

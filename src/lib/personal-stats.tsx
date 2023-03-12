@@ -34,7 +34,7 @@ const specialStats: PersonalStats = {
   bloodliters: {
     label: "Blood donated",
     category: "medical",
-    type: "blood",
+    type: "liquid",
   },
 };
 

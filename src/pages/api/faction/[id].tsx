@@ -3,7 +3,6 @@
 import type { FactionInformation, MemberInformation } from "@/common/types";
 import HakaLeaf, { HakaLeafInverted } from "@/ui/haka-leaf";
 
-import Image from "next/image";
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
 import { factions } from "@/lib/factions";
@@ -221,7 +220,7 @@ export default async function handler(req: NextRequest) {
                   align === "end" ? "opacity-0" : "opacity-100"
                 }`}
               >
-                <span tw="text-sm opacity-85 leading-1.3">
+                <span tw="text-xs opacity-85 leading-1.3">
                   {member.position} of {faction.name}
                 </span>
                 <span tw="text-xs opacity-70 leading-1">

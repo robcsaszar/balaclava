@@ -180,7 +180,7 @@ export default async function handler(req: NextRequest) {
   return new ImageResponse(
     (
       <div
-        tw={`flex relative text-white overflow-hidden ${
+        tw={`flex relative text-[${themeColor}] overflow-hidden ${
           rounded ? "rounded-xl" : ""
         }`}
       >
@@ -206,7 +206,12 @@ export default async function handler(req: NextRequest) {
           </div>
           <div tw="flex w-1/3">
             <div tw="relative w-full flex items-center flex-col">
-              <span tw="text-3xl font-extrabold tracking-tighter leading-1">
+              <span
+                tw="text-3xl font-extrabold tracking-tighter leading-1"
+                style={{
+                  textShadow: "#001224 1px 0 10px",
+                }}
+              >
                 {member.name}
               </span>
               <div

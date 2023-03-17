@@ -44,7 +44,11 @@ export default async function handler(req: NextRequest) {
   const user = searchParams.get("user");
   const rounded = searchParams.get("rounded") === "true";
   const align = searchParams.get("align") || "center";
-  const factionLogo = searchParams.get("factionLogo") === "true";
+
+  let factionLogo = true;
+  if (searchParams.get("factionLogo")) {
+    factionLogo = searchParams.get("factionLogo") === "true";
+  }
 
   if (!id) {
     return new Response("No faction ID provided", {
@@ -236,7 +240,7 @@ export default async function handler(req: NextRequest) {
           <div tw="flex w-1/3 px-2">
             <div tw="flex">
               <img
-                tw={`w-full ${!factionLogo ? "hidden" : ""}`}
+                tw={`w-full ${factionLogo ? "" : "hidden"}`}
                 src={`https://balaclava.vercel.app/logo_${id}.svg`}
                 alt={`Faction logo for faction ${faction.name}`}
               />

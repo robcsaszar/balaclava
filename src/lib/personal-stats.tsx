@@ -720,12 +720,12 @@ const personalStats: PersonalStats = {
     type: "number",
   },
   traveltime: {
-    label: "travel time",
+    label: "Travel time",
     category: "travel",
     type: "time",
   },
   traveltimes: {
-    label: "travel times",
+    label: "Times traveled",
     category: "travel",
     type: "number",
   },

@@ -193,17 +193,19 @@ export default async function handler(req: NextRequest) {
           tw={`flex absolute top-2 right-2 bottom-2 left-2 justify-center items-${align}`}
         >
           <div tw="relative w-1/3 h-full flex items-center">
-            <div
-              tw={`flex bg-[${themeColor}] rounded-lg bg-opacity-30 px-3 py-2 items-start justify-end overflow-hidden`}
-            >
-              <div tw="flex absolute -bottom-4 -right-4 opacity-20">
-                <HakaLeaf color={themeColor} />
+            {feats.length > 0 && (
+              <div
+                tw={`flex bg-[${themeColor}] rounded-lg bg-opacity-30 px-3 py-2 items-start justify-end overflow-hidden`}
+              >
+                <div tw="flex absolute -bottom-4 -right-4 opacity-20">
+                  <HakaLeaf color={themeColor} />
+                </div>
+                <div tw="flex absolute -bottom-4 -left-4 opacity-20">
+                  <HakaLeafInverted color={themeColor} />
+                </div>
+                <span tw="flex flex-col my-auto">{feats}</span>
               </div>
-              <div tw="flex absolute -bottom-4 -left-4 opacity-20">
-                <HakaLeafInverted color={themeColor} />
-              </div>
-              <span tw="flex flex-col my-auto">{feats}</span>
-            </div>
+            )}
           </div>
           <div tw="flex w-1/3">
             <div tw="relative w-full flex items-center flex-col">

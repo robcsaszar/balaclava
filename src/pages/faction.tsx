@@ -152,7 +152,13 @@ export default function Faction() {
               />
             </label>
           </div>
-          <div className="w-full">
+          <div
+            className={`w-full ${
+              !allowed
+                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                : ""
+            }`}
+          >
             <label
               htmlFor="userId"
               className="flex flex-col gap-1 text-sm font-bold uppercase tracking-widest transition-colors focus-within:text-eminence-300 "
@@ -166,22 +172,46 @@ export default function Faction() {
                 id="userId"
                 value={userId}
                 onChange={handleUserIdChange}
-                className="block w-48 rounded-lg border border-eminence-700 bg-eminence-900 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity"
+                className="block w-48 rounded-lg border border-eminence-700 bg-eminence-900 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity disabled:opacity-50"
                 min="1"
                 placeholder="e.g. 906148"
               />
             </label>
           </div>
-          <div className="flex w-full flex-col gap-1">
+          <div
+            className={`flex w-full flex-col gap-1 ${
+              !allowed
+                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                : ""
+            }`}
+          >
             <StatsCombobox stats={stats} onChange={handleStatsChange} />
           </div>
-          <div className="flex w-full flex-col">
+          <div
+            className={`flex w-full flex-col ${
+              !allowed
+                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                : ""
+            }`}
+          >
             <Alignment align={align} onChange={handleAlignChange} />
           </div>
-          <div className="flex w-full flex-col items-start">
+          <div
+            className={`flex w-full flex-col items-start ${
+              !allowed
+                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                : ""
+            }`}
+          >
             <Rounded rounded={rounded} onChange={handleRoundedChange} />
           </div>
-          <div className="flex w-full flex-col items-start">
+          <div
+            className={`flex w-full flex-col items-start ${
+              !allowed
+                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                : ""
+            }`}
+          >
             <FactionLogo
               logo={factionLogo}
               onChange={handleFactionLogoChange}

@@ -155,6 +155,7 @@ export default function Faction() {
               <input
                 required
                 type="number"
+                pattern="\d*"
                 name="factionId"
                 id="factionId"
                 value={factionId}
@@ -178,6 +179,7 @@ export default function Faction() {
               <input
                 required
                 type="number"
+                pattern="\d*"
                 name="userId"
                 id="userId"
                 value={userId}

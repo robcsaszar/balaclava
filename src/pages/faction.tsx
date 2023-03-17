@@ -96,7 +96,7 @@ export default function Faction() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center bg-eminence-800 p-4 text-eminence-50">
+    <div className="relative flex min-h-screen flex-col justify-center bg-eminence-800 p-4 text-eminence-100">
       <main className="flex w-full flex-col items-center justify-center gap-2">
         <h1 className="text-4xl font-extrabold tracking-tighter">Balaclava</h1>
         <p className="text-md opacity-70">Customize your live faction banner</p>
@@ -639,7 +639,25 @@ function StatsCombobox(props: {
             {selected.join()}
           </div>
         ) : (
-          "No stats selected"
+          <div className="flex items-center gap-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="icon icon-tabler icon-tabler-link"
+              width={14}
+              height={14}
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
+              <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
+            </svg>
+            No stats selected
+          </div>
         )}
       </div>
       <div className="relative flex h-32 flex-col gap-1 overflow-auto rounded-lg bg-eminence-900/50 px-3 py-2">

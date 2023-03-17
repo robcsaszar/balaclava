@@ -10,7 +10,7 @@ import { formatNumberByDataType } from "@/utils/data-formatting";
 import { personalStatistics } from "@/lib/personal-stats";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 const Inter_Bold = fetch(

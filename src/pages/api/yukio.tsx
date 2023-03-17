@@ -4,7 +4,7 @@ import { ImageResponse } from "@vercel/og";
 import type { PlayerInformation } from "../../common/types";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 const interFont = fetch(

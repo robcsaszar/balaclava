@@ -234,15 +234,13 @@ export default async function handler(req: NextRequest) {
             </div>
           </div>
           <div tw="flex w-1/3 px-2">
-            {factionLogo && (
-              <div tw="flex">
-                <img
-                  tw="w-full"
-                  src={`https://balaclava.vercel.app/logo_${id}.svg`}
-                  alt={`Faction logo for faction ${faction.name}`}
-                />
-              </div>
-            )}
+            <div tw="flex">
+              <img
+                tw={`w-full ${!factionLogo ? "hidden" : ""}`}
+                src={`https://balaclava.vercel.app/logo_${id}.svg`}
+                alt={`Faction logo for faction ${faction.name}`}
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import Image from "next/image";
+import Skully from "@/components/skully";
 import { factions } from "@/lib/factions";
 import { personalStatistics } from "@/lib/personal-stats";
 
@@ -289,19 +290,26 @@ export default function Faction() {
           {output && (
             <div
               className={
-                pinned ? "fixed bottom-4 left-4 right-4 backdrop-blur-lg" : ""
+                pinned
+                  ? "fixed bottom-4 left-4 right-4 backdrop-blur-lg"
+                  : "w-full"
               }
             >
-              <div className="relative flex w-full flex-col gap-4 rounded-xl bg-eminence-400/20 px-4 py-3 text-eminence-100 ring-1 ring-eminence-300/50">
-                <span className="flex flex-col gap-1 text-lg font-bold">
-                  Here&apos;s your URL
-                </span>
-                <output
-                  className="break-all font-mono text-sm leading-none "
-                  ref={outputRef}
-                >
-                  {buildUrl()}
-                </output>
+              <div className="relative flex flex-col gap-4 rounded-xl bg-eminence-400/20 px-4 py-3 text-eminence-100 ring-1 ring-eminence-300/50">
+                <div className="flex gap-2">
+                  <Skully width={33} height={33} />
+                  <div className="flex flex-col gap-2">
+                    <span className="flex items-end gap-2 font-bold text-eminence-300">
+                      Here&apos;s your URL:
+                    </span>
+                    <output
+                      className="break-all font-mono text-sm leading-none "
+                      ref={outputRef}
+                    >
+                      {buildUrl()}
+                    </output>
+                  </div>
+                </div>
                 {preview && (
                   <div className="relative">
                     <Image
@@ -313,8 +321,8 @@ export default function Faction() {
                     />
                   </div>
                 )}
-                <div className="absolute right-3 flex gap-4 text-eminence-400 transition-colors ">
-                  <button onClick={handlePin}>
+                <div className="absolute right-3 flex gap-4 text-eminence-400/50 transition-colors ">
+                  {/* <button onClick={handlePin}>
                     {pinned ? (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -363,7 +371,7 @@ export default function Faction() {
                       </svg>
                     )}
                     <span className="sr-only">Copy to clipboard</span>
-                  </button>
+                  </button> */}
                   <button onClick={handlePreview}>
                     {preview ? (
                       <svg

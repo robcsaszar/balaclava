@@ -309,6 +309,7 @@ export default function Faction() {
                       alt="Dynamic image preview of faction banner"
                       width={600}
                       height={100}
+                      onError={() => setPreview(false)}
                     />
                   </div>
                 )}

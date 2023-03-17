@@ -209,7 +209,9 @@ export default function Faction() {
             >
               <div className="relative flex flex-col gap-4 rounded-xl bg-eminence-400/20 px-4 py-3 text-eminence-100 ring-1 ring-eminence-300/50">
                 <div className="flex gap-2">
-                  <Skully width={33} height={33} />
+                  <div className="w-16">
+                    <Skully width={56} height={56} />
+                  </div>
                   <div className="flex flex-col gap-2">
                     <span className="flex items-end gap-2 font-bold text-eminence-300">
                       Here&apos;s your URL:

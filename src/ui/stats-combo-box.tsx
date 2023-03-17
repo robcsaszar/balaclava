@@ -141,7 +141,7 @@ export default function StatsCombobox(props: {
           </>
         )}
       </div>
-      <div className="relative flex h-32 flex-col gap-1 overflow-auto rounded-lg bg-eminence-900/50 px-3 py-2">
+      <div className="relative flex h-56 flex-col gap-4 overflow-auto rounded-lg bg-eminence-900/50 px-3 py-2">
         {personalStatArray
           .filter((stat) => stat.toLowerCase().includes(search.toLowerCase()))
           .map((stat) => (
@@ -160,9 +160,9 @@ export default function StatsCombobox(props: {
                 disabled={selected.length >= 4 && !selected.includes(stat)}
                 className="peer cursor-pointer rounded-full border-none bg-persian-300/10 text-persian-600 transition-colors focus:ring-0 focus:ring-offset-0 disabled:opacity-50 group-hover:bg-persian-300/20 group-hover:checked:bg-persian-600"
               />
-              <div className="flex items-center gap-2 peer-checked:text-persian-400 peer-disabled:opacity-50">
-                <span>{personalStatistics[stat]?.label}</span>
-                <span className="rounded-full bg-eminence-900 px-4 py-1 font-mono text-xs opacity-75">
+              <div className="flex w-full items-center justify-between gap-2 peer-checked:text-persian-400 peer-disabled:opacity-50">
+                <span className="">{personalStatistics[stat]?.label}</span>
+                <span className="truncate rounded-full bg-eminence-900 px-4 py-1 font-mono text-xs opacity-75">
                   {stat}
                 </span>
               </div>

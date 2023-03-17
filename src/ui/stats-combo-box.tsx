@@ -82,20 +82,44 @@ export default function StatsCombobox(props: {
           placeholder="Search for a stat"
         />
       </label>
-      <div className="flex gap-2 font-mono text-sm font-extrabold text-eminence-100 text-opacity-50">
-        <span>
-          Selected {selected.length} of {personalStatArray.length}
-        </span>
+      <div className="flex gap-2 font-mono text-sm text-eminence-200/40">
+        <div className="flex items-center gap-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="icon icon-tabler icon-tabler-list-check"
+            width={16}
+            height={16}
+            viewBox="0 0 24 24"
+            strokeWidth="2"
+            stroke="currentColor"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path>
+            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5"></path>
+            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5"></path>
+            <path d="M11 6l9 0"></path>
+            <path d="M11 12l9 0"></path>
+            <path d="M11 18l9 0"></path>
+          </svg>
+          <span>
+            {selected.length > 0
+              ? `Selected ${selected.length} of ${personalStatArray.length}`
+              : `Select up to four stats`}
+          </span>
+        </div>
         {selected.length > 0 && (
           <>
-            <span className="opacity-20">|</span>
+            <span className="opacity-50">·</span>
             <button
               type="button"
               onClick={() => {
                 setSelected([]);
                 props.onChange([]);
               }}
-              className="flex items-center gap-1 text-persian-600 hover:text-persian-200"
+              className="flex items-center gap-1 hover:text-red-500"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -117,49 +141,6 @@ export default function StatsCombobox(props: {
           </>
         )}
       </div>
-      <div className="select-none overflow-hidden truncate rounded-lg text-center font-mono text-xs text-eminence-200/40">
-        {selected.length > 0 ? (
-          <div className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon icon-tabler icon-tabler-link"
-              width={14}
-              height={14}
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
-              <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
-            </svg>
-            {selected.join()}
-          </div>
-        ) : (
-          <div className="flex items-center gap-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon icon-tabler icon-tabler-link"
-              width={14}
-              height={14}
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path>
-              <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path>
-            </svg>
-            No stats selected
-          </div>
-        )}
-      </div>
       <div className="relative flex h-32 flex-col gap-1 overflow-auto rounded-lg bg-eminence-900/50 px-3 py-2">
         {personalStatArray
           .filter((stat) => stat.toLowerCase().includes(search.toLowerCase()))
@@ -179,38 +160,14 @@ export default function StatsCombobox(props: {
                 disabled={selected.length >= 4 && !selected.includes(stat)}
                 className="peer cursor-pointer rounded-full border-none bg-persian-300/10 text-persian-600 transition-colors focus:ring-0 focus:ring-offset-0 disabled:opacity-50 group-hover:bg-persian-300/20 group-hover:checked:bg-persian-600"
               />
-              <span className="peer-checked:text-persian-400 peer-disabled:opacity-50">
-                {personalStatistics[stat]?.label}
-              </span>
+              <div className="flex items-center gap-2 peer-checked:text-persian-400 peer-disabled:opacity-50">
+                <span>{personalStatistics[stat]?.label}</span>
+                <span className="rounded-full bg-eminence-900 px-4 py-1 font-mono text-xs opacity-75">
+                  {stat}
+                </span>
+              </div>
             </label>
           ))}
-      </div>
-      <div
-        className={`flex items-center gap-1 font-mono text-sm transition-colors duration-300 ${
-          selected.length === 4
-            ? "text-red-500"
-            : selected.length > 2
-            ? "text-amber-500"
-            : "text-eminence-200/30"
-        }`}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={16}
-          height={16}
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-          stroke="currentColor"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-          <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
-          <path d="M12 9h.01"></path>
-          <path d="M11 12h1v4h1"></path>
-        </svg>
-        You may only select up to four stats
       </div>
     </div>
   );

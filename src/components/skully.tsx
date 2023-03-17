@@ -10,6 +10,8 @@ export default function Skully({ width = 100, height = 100 }) {
         width={width}
         height={height}
         layout="fixed"
+        draggable={false}
+        className="select-none"
       />
     </div>
   );

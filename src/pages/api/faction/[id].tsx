@@ -3,6 +3,7 @@
 import type { FactionInformation, MemberInformation } from "@/common/types";
 import HakaLeaf, { HakaLeafInverted } from "@/ui/haka-leaf";
 
+import FactionIcon from "@/ui/icon-faction";
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
 import { factions } from "@/lib/factions";
@@ -48,6 +49,11 @@ export default async function handler(req: NextRequest) {
   let factionLogo = true;
   if (searchParams.get("factionLogo")) {
     factionLogo = searchParams.get("factionLogo") === "true";
+  }
+
+  let daysInFaction = true;
+  if (factionLogo && searchParams.get("daysInFaction")) {
+    daysInFaction = searchParams.get("daysInFaction") === "true";
   }
 
   if (!id) {
@@ -231,19 +237,36 @@ export default async function handler(req: NextRequest) {
                   {member.position} of {faction.name}
                 </span>
                 <span tw="text-xs opacity-70 leading-1">
-                  {member.days_in_faction} days · {member.last_action.status} ·{" "}
-                  {member.last_action.relative}
+                  {member.last_action.status} · {member.last_action.relative}
                 </span>
               </div>
             </div>
           </div>
           <div tw="flex w-1/3 px-2">
-            <div tw="flex">
+            <div
+              tw={`relative w-full flex items-center flex-col ${
+                factionLogo ? "" : "hidden"
+              }`}
+            >
               <img
-                tw={`w-full ${factionLogo ? "" : "hidden"}`}
+                tw="w-full"
                 src={`https://balaclava.vercel.app/logo_${id}.svg`}
                 alt={`Faction logo for faction ${faction.name}`}
               />
+              {daysInFaction && (
+                <div
+                  tw={`mt-1 flex flex-col absolute top-full w-full items-center ${
+                    align === "end" ? "opacity-0" : "opacity-100"
+                  }`}
+                >
+                  <span tw="text-xs rounded-md overflow-hidden self-end items-center font-bold bg-white/20 px-2">
+                    <div tw="flex mr-1 opacity-50">
+                      <FactionIcon color={themeColor} />
+                    </div>
+                    {member.days_in_faction} days
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>

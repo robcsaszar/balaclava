@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import Alignment from "@/ui/alignment";
+import DaysInFaction from "@/ui/days-in-faction";
 import FactionLogo from "@/ui/faction-logo";
 import Output from "@/ui/output";
 import Rounded from "@/ui/rounded";
@@ -27,6 +28,7 @@ export default function Faction() {
   const [rounded, setRounded] = useState(false);
   const [output, setOutput] = useState(false);
   const [factionLogo, setFactionLogo] = useState(true);
+  const [daysInFaction, setDaysInFaction] = useState(true);
 
   if (!personalStatistics) {
     return <div>Loading stats...</div>;
@@ -58,6 +60,10 @@ export default function Faction() {
     setFactionLogo(factionLogo);
   };
 
+  const handleDaysInFactionChange = (daysInFaction: boolean) => {
+    setDaysInFaction(daysInFaction);
+  };
+
   const buildUrl = () => {
     let url = `https://balaclava.app/api/faction/${factionId}?user=${userId}`;
     if (stats.length > 0) {
@@ -74,6 +80,10 @@ export default function Faction() {
 
     if (!factionLogo) {
       url += `&factionLogo=${factionLogo}`;
+    }
+
+    if (!daysInFaction) {
+      url += `&daysInFaction=${daysInFaction}`;
     }
 
     return url;
@@ -215,6 +225,18 @@ export default function Faction() {
             <FactionLogo
               logo={factionLogo}
               onChange={handleFactionLogoChange}
+            />
+          </div>
+          <div
+            className={`flex w-full flex-col items-start ${
+              !allowed
+                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                : ""
+            }`}
+          >
+            <DaysInFaction
+              daysInFaction={daysInFaction}
+              onChange={handleDaysInFactionChange}
             />
           </div>
           {output && <Output url={url} />}

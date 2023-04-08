@@ -95,7 +95,10 @@ export default function Faction() {
     <div className="relative flex min-h-screen flex-col justify-center bg-eminence-800 p-4 text-eminence-100">
       <main className="flex w-full flex-col items-center justify-center gap-2">
         <h1 className="text-4xl font-extrabold tracking-tighter">Balaclava</h1>
-        <p className="text-md opacity-70">Customize your live faction banner</p>
+        <p className="text-md">
+          <strong>Customize</strong> your banner -&gt; get <strong>URL</strong>{" "}
+          -&gt; use <strong>anywhere</strong>.
+        </p>
         <form className="mt-12 flex w-full max-w-xl flex-col items-center justify-center gap-4">
           <div className="w-full">
             <label

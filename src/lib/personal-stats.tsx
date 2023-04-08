@@ -185,7 +185,7 @@ const personalStats: PersonalStats = {
     type: "number",
   },
   cantaken: {
-    label: "Canabis taken",
+    label: "Cannabis taken",
     category: "drugs",
     type: "number",
   },
@@ -430,7 +430,7 @@ const personalStats: PersonalStats = {
     type: "number",
   },
   medicalitemsused: {
-    label: "medical items used",
+    label: "Medical items used",
     category: "medical",
     type: "number",
   },

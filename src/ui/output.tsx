@@ -49,7 +49,7 @@ export default function Output(props: { url: string }) {
                 Hey, here&apos;s your URL
               </span>
               <output
-                className="break-all rounded-lg bg-eminence-800 py-3 px-4 font-mono text-sm leading-none "
+                className="break-all rounded-lg bg-eminence-800 px-4 py-3 font-mono text-sm leading-none "
                 ref={outputRef}
               >
                 {props.url}
@@ -120,7 +120,7 @@ export default function Output(props: { url: string }) {
                   width={24}
                   height={24}
                   viewBox="0 0 24 24"
-                  stroke-width={2}
+                  strokeWidth={2}
                   stroke="currentColor"
                   fill="none"
                   strokeLinecap="round"
@@ -219,7 +219,7 @@ export default function Output(props: { url: string }) {
               width={16}
               height={16}
               viewBox="0 0 24 24"
-              stroke-width={2}
+              strokeWidth={2}
               stroke="currentColor"
               fill="none"
               strokeLinecap="round"
@@ -232,7 +232,7 @@ export default function Output(props: { url: string }) {
             </svg>
             <span>How to use</span>
           </summary>
-          <div className="rounded-lg bg-eminence-900 py-2 px-3 text-eminence-100">
+          <div className="rounded-lg bg-eminence-900 px-3 py-2 text-eminence-100">
             <ul className="list-disc space-y-3 pl-5 marker:text-eminence-300">
               <li>
                 Copy the URL and add it to your TORN profile, forum signature,

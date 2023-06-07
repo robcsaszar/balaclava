@@ -1,7 +1,5 @@
 // A page with a form to create a URL for the API at api/faction/[id].tsx
 
-import { useRef, useState } from "react";
-
 import Alignment from "@/ui/alignment";
 import DaysInFaction from "@/ui/days-in-faction";
 import FactionLogo from "@/ui/faction-logo";
@@ -10,6 +8,7 @@ import Rounded from "@/ui/rounded";
 import StatsCombobox from "@/ui/stats-combo-box";
 import { factions } from "@/lib/factions";
 import { personalStatistics } from "@/lib/personal-stats";
+import { useState } from "react";
 
 function checkFactionId(id: string) {
   const faction = factions.getAll.find((f) => f === id);

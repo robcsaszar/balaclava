@@ -41,20 +41,10 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  if (!company.company_employees[id]) {
-    return new Response("Invalid ID provided", {
-      status: 400,
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
-  }
-
   const employee: EmployeeInformation | undefined =
     company.company_employees[id];
-
   if (!employee) {
-    return new Response("Invalid ID provided", {
+    return new Response(`No employee found with ID: ${id}`, {
       status: 400,
       headers: {
         "Content-Type": "text/plain",

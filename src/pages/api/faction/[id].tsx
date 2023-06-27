@@ -21,6 +21,11 @@ const Inter_ExtraBold = fetch(
   new URL("../../../assets/fonts/Inter-ExtraBold.otf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
+const getFactionBanner = (id: string) =>
+  fetch(new URL(`./factions/${id}/banner.png`, import.meta.url))
+    .then((res) => res.blob())
+    .then((blob) => URL.createObjectURL(blob));
+
 export default async function handler(req: NextRequest) {
   if (req.method !== "GET") {
     return new Response("Method not allowed", {
@@ -74,9 +79,9 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  const faction: FactionInformation = await fetch(factions.getFaction(id)).then(
-    (res) => res.json()
-  );
+  const faction: FactionInformation = await fetch(
+    factions.getFactionInfo(id)
+  ).then((res) => res.json());
 
   if (factions.getAll.indexOf(id) === -1) {
     return new Response(
@@ -99,7 +104,9 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  if (!faction.members[user]) {
+  const member: MemberInformation = faction.members[user] as MemberInformation;
+
+  if (!member) {
     return new Response(
       `The provided member ID "${user}" is invalid or not a faction member.`,
       {
@@ -111,21 +118,10 @@ export default async function handler(req: NextRequest) {
     );
   }
 
-  const member: MemberInformation = faction.members[user] as MemberInformation;
-
-  if (!member) {
-    return new Response(`The provided member ID "${user}" is invalid.`, {
-      status: 400,
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
-  }
-
   const featuredStats = searchParams.get("stats")?.split(",");
   const feats: JSX.Element[] = [];
-  const { personalstats } = await fetch(factions.getStats(user)).then((res) =>
-    res.json()
+  const { personalstats } = await fetch(factions.getMemberStats(user)).then(
+    (res) => res.json()
   );
 
   if (featuredStats) {
@@ -188,6 +184,8 @@ export default async function handler(req: NextRequest) {
   const interBold = await Inter_Bold;
   const interExtraBold = await Inter_ExtraBold;
   const themeColor = "#ffffff";
+  const factionBanner =
+    (await getFactionBanner(id)) || "https://picsum.photos/600/100";
 
   return new ImageResponse(
     (
@@ -197,7 +195,7 @@ export default async function handler(req: NextRequest) {
         }`}
       >
         <img
-          src={`https://balaclava.vercel.app/${id}.png`}
+          src={factionBanner}
           alt={`Faction image for faction ${faction.name}`}
         />
         <div
@@ -250,7 +248,7 @@ export default async function handler(req: NextRequest) {
             >
               <img
                 tw="w-full"
-                src={`https://balaclava.vercel.app/logo_${id}.svg`}
+                src="https://picsum.photos/600/100"
                 alt={`Faction logo for faction ${faction.name}`}
               />
               {daysInFaction && (

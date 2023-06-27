@@ -114,7 +114,8 @@ export default async function handler(req: NextRequest) {
     );
   }
 
-  const featuredStats = searchParams.get("stats")?.split(",");
+  // Split the encoded stats into an array
+  const featuredStats = searchParams.get("stats")?.split(",") ?? [];
   const feats: JSX.Element[] = [];
   const personalstats = await getUserPersonalStats(user);
 

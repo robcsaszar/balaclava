@@ -63,29 +63,56 @@ export default function Faction() {
     setDaysInFaction(daysInFaction);
   };
 
+  // const buildUrl = () => {
+  //   let url = `https://balaclava.app/api/faction/${factionId}?user=${userId}`;
+  //   if (stats.length > 0) {
+  //     url += `&stats=${stats}`;
+  //   }
+
+  //   if (align !== "center") {
+  //     url += `&align=${align}`;
+  //   }
+
+  //   if (rounded) {
+  //     url += `&rounded=${rounded}`;
+  //   }
+
+  //   if (!factionLogo) {
+  //     url += `&factionLogo=${factionLogo}`;
+  //   }
+
+  //   if (!daysInFaction) {
+  //     url += `&daysInFaction=${daysInFaction}`;
+  //   }
+
+  //   return url;
+  // };
   const buildUrl = () => {
-    let url = `https://balaclava.app/api/faction/${factionId}?user=${userId}`;
+    const baseUrl = new URL("https://balaclava.app/");
+    baseUrl.pathname = `api/faction/${factionId}`;
+    baseUrl.searchParams.append("user", userId);
+
     if (stats.length > 0) {
-      url += `&stats=${stats}`;
+      baseUrl.searchParams.append("stats", stats.join(","));
     }
 
     if (align !== "center") {
-      url += `&align=${align}`;
+      baseUrl.searchParams.append("align", align);
     }
 
     if (rounded) {
-      url += `&rounded=${rounded}`;
+      baseUrl.searchParams.append("rounded", rounded.toString());
     }
 
     if (!factionLogo) {
-      url += `&factionLogo=${factionLogo}`;
+      baseUrl.searchParams.append("factionLogo", factionLogo.toString());
     }
 
     if (!daysInFaction) {
-      url += `&daysInFaction=${daysInFaction}`;
+      baseUrl.searchParams.append("daysInFaction", daysInFaction.toString());
     }
 
-    return url;
+    return baseUrl.toString();
   };
 
   const url = buildUrl();

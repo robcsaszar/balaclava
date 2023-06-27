@@ -1,14 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 
-import type { FactionInformation, MemberInformation } from "@/common/types";
 import HakaLeaf, { HakaLeafInverted } from "@/ui/haka-leaf";
+import {
+  getFactionBanner,
+  getFactionInfo,
+  getFactionLogo,
+  whitelisted,
+} from "@/lib/factions";
+import { labeledStats, specialStats } from "@/lib/personal-stats";
 
 import FactionIcon from "@/ui/icon-faction";
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
-import { factions } from "@/lib/factions";
 import { formatNumberByDataType } from "@/utils/data-formatting";
-import { personalStatistics } from "@/lib/personal-stats";
+import { getUserPersonalStats } from "@/lib/users";
 
 export const config = {
   runtime: "edge",
@@ -20,11 +25,6 @@ const Inter_Bold = fetch(
 const Inter_ExtraBold = fetch(
   new URL("../../../assets/fonts/Inter-ExtraBold.otf", import.meta.url)
 ).then((res) => res.arrayBuffer());
-
-const getFactionBanner = (id: string) =>
-  fetch(new URL(`./factions/${id}/banner.png`, import.meta.url))
-    .then((res) => res.blob())
-    .then((blob) => URL.createObjectURL(blob));
 
 export default async function handler(req: NextRequest) {
   if (req.method !== "GET") {
@@ -51,13 +51,13 @@ export default async function handler(req: NextRequest) {
   const rounded = searchParams.get("rounded") === "true";
   const align = searchParams.get("align") || "center";
 
-  let factionLogo = true;
+  let setFactionLogo = true;
   if (searchParams.get("factionLogo")) {
-    factionLogo = searchParams.get("factionLogo") === "true";
+    setFactionLogo = searchParams.get("factionLogo") === "true";
   }
 
   let daysInFaction = true;
-  if (factionLogo && searchParams.get("daysInFaction")) {
+  if (setFactionLogo && searchParams.get("daysInFaction")) {
     daysInFaction = searchParams.get("daysInFaction") === "true";
   }
 
@@ -79,11 +79,7 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  const faction: FactionInformation = await fetch(
-    factions.getFactionInfo(id)
-  ).then((res) => res.json());
-
-  if (factions.getAll.indexOf(id) === -1) {
+  if (whitelisted.getAll.indexOf(id) === -1) {
     return new Response(
       `This faction is not whitelisted or the faction ID '${id}' is invalid.`,
       {
@@ -95,6 +91,7 @@ export default async function handler(req: NextRequest) {
     );
   }
 
+  const faction = await getFactionInfo(id);
   if (!faction) {
     return new Response(`The provided faction ID '${id}' is invalid.`, {
       status: 400,
@@ -104,8 +101,7 @@ export default async function handler(req: NextRequest) {
     });
   }
 
-  const member: MemberInformation = faction.members[user] as MemberInformation;
-
+  const member = faction.members[user];
   if (!member) {
     return new Response(
       `The provided member ID "${user}" is invalid or not a faction member.`,
@@ -120,73 +116,39 @@ export default async function handler(req: NextRequest) {
 
   const featuredStats = searchParams.get("stats")?.split(",");
   const feats: JSX.Element[] = [];
-  const { personalstats } = await fetch(factions.getMemberStats(user)).then(
-    (res) => res.json()
-  );
+  const personalstats = await getUserPersonalStats(user);
 
-  if (featuredStats) {
-    featuredStats.forEach((stat, i) => {
-      if (personalStatistics[stat]) {
-        let statValue: number;
-        if (personalstats[stat] === undefined) {
-          statValue = 0;
-        }
+  if (!featuredStats) return;
 
-        if (typeof personalstats[stat] === "string") {
-          statValue = parseInt(personalstats[stat]);
-        }
+  featuredStats.forEach((stat, i) => {
+    let statValue = 0;
 
-        if (stat === "kda") {
-          statValue =
-            (personalstats.attackswon + personalstats.attacksassisted / 2) /
-            personalstats.defendslost;
-        } else if (stat === "costperrehab") {
-          statValue = personalstats.rehabcost / personalstats.rehabs;
-        } else if (stat === "hitrate") {
-          statValue =
-            personalstats.attackhits /
-            (personalstats.attackhits + personalstats.attackmisses);
-        } else if (stat === "factionhits") {
-          statValue =
-            personalstats.rankedwarhits +
-            personalstats.raidhits +
-            personalstats.territoryclears +
-            personalstats.retals;
-        } else if (stat === "stealth") {
-          statValue = personalstats.attacksstealthed / personalstats.attackswon;
-        } else if (stat === "damageperhit") {
-          statValue = personalstats.attackdamage / personalstats.attackhits;
-        } else if (stat === "bloodliters") {
-          statValue = personalstats.bloodwithdrawn / 2;
-        } else if (stat === "beersdrunk") {
-          statValue = personalstats.alcoholused * 0.33;
-        } else {
-          statValue = personalstats[stat];
-        }
+    if (specialStats[stat]) {
+      statValue = specialStats[stat]?.calculate(personalstats) ?? 0;
+    } else {
+      statValue = personalstats[stat] ?? 0;
+    }
 
-        if (i > 3) return;
+    if (i > 3) return;
 
-        feats.push(
-          <div key={i} tw="flex text-xs tracking-wide">
-            <span tw="mr-1">{personalStatistics[stat]?.label}:</span>
-            <span tw="">
-              {formatNumberByDataType(
-                statValue,
-                personalStatistics[stat]?.type as string
-              )}
-            </span>
-          </div>
-        );
-      }
-    });
-  }
+    feats.push(
+      <div key={i} tw="flex text-xs tracking-wide">
+        <span tw="mr-1">{labeledStats[stat]?.label}:</span>
+        <span tw="">
+          {formatNumberByDataType(
+            statValue,
+            labeledStats[stat]?.type as string
+          )}
+        </span>
+      </div>
+    );
+  });
 
   const interBold = await Inter_Bold;
   const interExtraBold = await Inter_ExtraBold;
   const themeColor = "#ffffff";
-  const factionBanner =
-    (await getFactionBanner(id)) || "https://picsum.photos/600/100";
-
+  const factionBanner = await getFactionBanner(id);
+  const factionLogo = await getFactionLogo(id);
   return new ImageResponse(
     (
       <div
@@ -243,12 +205,12 @@ export default async function handler(req: NextRequest) {
           <div tw="flex w-1/3 px-2">
             <div
               tw={`relative w-full flex items-center flex-col ${
-                factionLogo ? "" : "hidden"
+                setFactionLogo ? "" : "hidden"
               }`}
             >
               <img
                 tw="w-full"
-                src="https://picsum.photos/600/100"
+                src={factionLogo}
                 alt={`Faction logo for faction ${faction.name}`}
               />
               {daysInFaction && (

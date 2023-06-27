@@ -6,12 +6,12 @@ import FactionLogo from "@/ui/faction-logo";
 import Output from "@/ui/output";
 import Rounded from "@/ui/rounded";
 import StatsCombobox from "@/ui/stats-combo-box";
-import { factions } from "@/lib/factions";
-import { personalStatistics } from "@/lib/personal-stats";
+import { labeledStats } from "@/lib/personal-stats";
 import { useState } from "react";
+import { whitelisted } from "@/lib/factions";
 
 function checkFactionId(id: string) {
-  const faction = factions.getAll.find((f) => f === id);
+  const faction = whitelisted.getAll.find((f) => f === id);
   if (faction) {
     return true;
   }
@@ -29,7 +29,7 @@ export default function Faction() {
   const [factionLogo, setFactionLogo] = useState(true);
   const [daysInFaction, setDaysInFaction] = useState(true);
 
-  if (!personalStatistics) {
+  if (!labeledStats) {
     return <div>Loading stats...</div>;
   }
 

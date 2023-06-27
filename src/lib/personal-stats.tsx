@@ -1,45 +1,74 @@
-import type { PersonalStats } from "../common/types";
+import type { CustomPersonalStats, PersonalStats } from "../common/types";
 
-const specialStats: PersonalStats = {
+export const specialStats: CustomPersonalStats = {
   kda: {
     label: "KDA",
     category: "combat",
     type: "number",
+    calculate: ({ attackswon = 0, attacksassisted = 0, defendslost = 0 }) => {
+      return (attackswon + attacksassisted / 2) / defendslost;
+    },
   },
   costperrehab: {
     label: "Cost per rehab",
     category: "drugs",
     type: "money",
+    calculate: ({ rehabcost = 0, rehabs = 0 }) => {
+      return rehabcost / rehabs;
+    },
   },
   hitrate: {
     label: "Hit rate",
     category: "combat",
     type: "percentage",
+    calculate: ({ attackhits = 0, attackmisses = 0 }) => {
+      return attackhits / (attackhits + attackmisses);
+    },
   },
   factionhits: {
     label: "Organized hits",
     category: "faction",
     type: "number",
+    calculate: ({
+      rankedwarhits = 0,
+      raidhits = 0,
+      territoryclears = 0,
+      retals = 0,
+    }) => {
+      return rankedwarhits + raidhits + territoryclears + retals;
+    },
   },
   stealth: {
     label: "Stealth hits",
     category: "combat",
     type: "percentage",
+    calculate: ({ attacksstealthed = 0, attackswon = 0 }) => {
+      return attacksstealthed / attackswon;
+    },
   },
   damageperhit: {
     label: "Avg. damage per hit",
     category: "combat",
     type: "number",
+    calculate: ({ attackdamage = 0, attackhits = 0 }) => {
+      return attackdamage / attackhits;
+    },
   },
   bloodliters: {
     label: "Blood donated",
     category: "medical",
     type: "liquid",
+    calculate: ({ bloodwithdrawn = 0 }) => {
+      return bloodwithdrawn / 2;
+    },
   },
   beersdrunk: {
     label: "Beers drunk",
     category: "boosters",
     type: "liquid",
+    calculate: ({ alcoholused = 0 }) => {
+      return alcoholused * 0.33;
+    },
   },
 };
 
@@ -766,5 +795,4 @@ const personalStats: PersonalStats = {
   },
 };
 
-// Export both the special and personal stats as a single object
-export const personalStatistics = { ...specialStats, ...personalStats };
+export const labeledStats = { ...specialStats, ...personalStats };

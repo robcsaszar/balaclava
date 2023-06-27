@@ -1,7 +1,7 @@
-import { personalStatistics } from "@/lib/personal-stats";
+import { labeledStats } from "@/lib/personal-stats";
 import { useState } from "react";
 
-const personalStatArray = Object.keys(personalStatistics);
+const personalStatArray = Object.keys(labeledStats);
 export default function StatsCombobox(props: {
   stats: string[];
   onChange: (stats: string[]) => void;
@@ -148,7 +148,7 @@ export default function StatsCombobox(props: {
             <label
               key={stat}
               htmlFor={stat}
-              className="group flex cursor-pointer items-center gap-2 rounded-r-full rounded-l-md bg-persian-100/0 text-eminence-200/70 ring-4 ring-transparent transition-all duration-300 checked:text-persian-600 focus-within:-ml-3 focus-within:bg-persian-400/10 focus-within:pl-3 focus-within:ring-4 focus-within:ring-persian-400/10 hover:text-persian-200"
+              className="group flex cursor-pointer items-center gap-2 rounded-l-md rounded-r-full bg-persian-100/0 text-eminence-200/70 ring-4 ring-transparent transition-all duration-300 checked:text-persian-600 focus-within:-ml-3 focus-within:bg-persian-400/10 focus-within:pl-3 focus-within:ring-4 focus-within:ring-persian-400/10 hover:text-persian-200"
             >
               <input
                 type="checkbox"
@@ -161,7 +161,7 @@ export default function StatsCombobox(props: {
                 className="peer cursor-pointer rounded-full border-none bg-persian-300/10 text-persian-600 transition-colors focus:ring-0 focus:ring-offset-0 disabled:opacity-50 group-hover:bg-persian-300/20 group-hover:checked:bg-persian-600"
               />
               <div className="flex w-full items-center justify-between gap-2 peer-checked:text-persian-400 peer-disabled:opacity-50">
-                <span className="">{personalStatistics[stat]?.label}</span>
+                <span className="">{labeledStats[stat]?.label}</span>
                 <span className="select-none truncate rounded-full bg-eminence-900 px-4 py-1 font-mono text-xs opacity-75 ring-1 ring-eminence-700 group-focus-within:ring-persian-400/30 group-focus-within:peer-checked:bg-persian-400/50">
                   {stat}
                 </span>

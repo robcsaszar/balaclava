@@ -143,7 +143,7 @@ const PersonalStatCategories = [
   "miscellaneous",
 ] as const;
 type PersonalStatCategory =
-  typeof PersonalStatCategories[keyof typeof PersonalStatCategories];
+  (typeof PersonalStatCategories)[keyof typeof PersonalStatCategories];
 
 const PersonalStatTypes = [
   "time",
@@ -154,7 +154,7 @@ const PersonalStatTypes = [
   "other",
 ] as const;
 type PersonalStatType =
-  typeof PersonalStatTypes[keyof typeof PersonalStatTypes];
+  (typeof PersonalStatTypes)[keyof typeof PersonalStatTypes];
 
 export interface PersonalStat {
   category: PersonalStatCategory;
@@ -162,6 +162,18 @@ export interface PersonalStat {
   type: PersonalStatType;
 }
 
+export interface CustomPersonalStat extends PersonalStat {
+  calculate: (stats: PersonalStatsRaw) => number;
+}
+
+export interface CustomPersonalStats {
+  [key: string]: CustomPersonalStat;
+}
+
 export interface PersonalStats {
   [key: string]: PersonalStat;
+}
+
+export interface PersonalStatsRaw {
+  [key: string]: number;
 }

@@ -95,7 +95,7 @@ export default function Faction() {
   const url = buildUrl();
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center bg-eminence-800 p-4 text-eminence-100">
+    <div className="relative flex min-h-screen flex-col justify-center bg-eminence-950 p-4 text-eminence-100">
       <main className="flex w-full flex-col items-center justify-center gap-2">
         <h1 className="text-4xl font-extrabold tracking-tighter">Balaclava</h1>
         <p className="text-md">
@@ -158,7 +158,7 @@ export default function Faction() {
                 id="factionId"
                 value={factionId}
                 onChange={handleFactionIdChange}
-                className={`block w-32 rounded-lg border border-eminence-700 bg-eminence-900 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity ${
+                className={`block w-32 rounded-lg border border-eminence-700 bg-eminence-950 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity ${
                   allowed
                     ? "border-emerald-500/50 focus:border-emerald-500 focus:ring-emerald-500"
                     : ""
@@ -188,7 +188,7 @@ export default function Faction() {
                 id="userId"
                 value={userId}
                 onChange={handleUserIdChange}
-                className="block w-48 rounded-lg border border-eminence-700 bg-eminence-900 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity disabled:opacity-50"
+                className="block w-48 rounded-lg border border-eminence-700 bg-eminence-950 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity disabled:opacity-50"
                 min="1"
                 placeholder="e.g. 906148"
               />

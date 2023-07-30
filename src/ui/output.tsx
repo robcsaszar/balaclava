@@ -40,17 +40,17 @@ export default function Output(props: { url: string }) {
           pinned ? "fixed bottom-4 left-4 right-4 backdrop-blur-lg" : "w-full"
         }
       >
-        <div className="relative flex flex-col gap-4 rounded-2xl rounded-tl-md bg-eminence-400/20 p-3 text-eminence-100 ring-1 ring-eminence-300/50">
+        <div className="relative flex flex-col gap-4 rounded-2xl rounded-tl-md bg-eminence-500/20 p-3 text-eminence-100 ring-2 ring-eminence-500/50">
           <div className="flex items-start gap-2">
             <div className="w-16 min-w-max">
               <Skully width={56} height={56} />
             </div>
             <div className="flex flex-col gap-2">
-              <span className="flex items-end gap-2 font-bold text-eminence-300">
-                Hey, here&apos;s your URL
+              <span className="flex items-end gap-2 font-bold text-eminence-200">
+                Hey, here&apos;s your URL:
               </span>
               <output
-                className="break-all rounded-lg bg-eminence-800 px-4 py-3 font-mono text-sm leading-none "
+                className="select-all break-all rounded-lg bg-eminence-900 px-4 py-3 font-mono text-sm leading-none"
                 ref={outputRef}
               >
                 {props.url}
@@ -66,53 +66,53 @@ export default function Output(props: { url: string }) {
                 height={100}
                 onError={() => setPreview(false)}
                 // debug="true"
-                fallback="https://via.placeholder.com/600x100?text=Preview+not+available"
+                fallback="https://via.placeholder.com/600x100.png?text=Preview+image+not+available"
               />
             </div>
           )}
-          <div className="absolute right-3 flex gap-4 text-eminence-400/50 transition-colors ">
+          <div className="absolute right-3 flex gap-4 text-eminence-600 transition-colors ">
             {/* <button onClick={handlePin}>
-              {pinned ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="transition-colors hover:text-eminence-300"
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path
-                    d="M16 3a1 1 0 0 1 .117 1.993l-.117 .007v4.764l1.894 3.789a1 1 0 0 1 .1 .331l.006 .116v2a1 1 0 0 1 -.883 .993l-.117 .007h-4v4a1 1 0 0 1 -1.993 .117l-.007 -.117v-4h-4a1 1 0 0 1 -.993 -.883l-.007 -.117v-2a1 1 0 0 1 .06 -.34l.046 -.107l1.894 -3.791v-4.762a1 1 0 0 1 -.117 -1.993l.117 -.007h8z"
-                    strokeWidth={0}
-                    fill="currentColor"
-                  ></path>
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="transition-colors hover:text-eminence-300"
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="currentColor"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4"></path>
-                  <path d="M9 15l-4.5 4.5"></path>
-                  <path d="M14.5 4l5.5 5.5"></path>
-                </svg>
-              )}
-              <span className="sr-only">Copy to clipboard</span>
-            </button> */}
+            {pinned ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="transition-colors hover:text-eminence-300"
+                width={24}
+                height={24}
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path
+                  d="M16 3a1 1 0 0 1 .117 1.993l-.117 .007v4.764l1.894 3.789a1 1 0 0 1 .1 .331l.006 .116v2a1 1 0 0 1 -.883 .993l-.117 .007h-4v4a1 1 0 0 1 -1.993 .117l-.007 -.117v-4h-4a1 1 0 0 1 -.993 -.883l-.007 -.117v-2a1 1 0 0 1 .06 -.34l.046 -.107l1.894 -3.791v-4.762a1 1 0 0 1 -.117 -1.993l.117 -.007h8z"
+                  strokeWidth={0}
+                  fill="currentColor"
+                ></path>
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="transition-colors hover:text-eminence-300"
+                width={24}
+                height={24}
+                viewBox="0 0 24 24"
+                strokeWidth="2"
+                stroke="currentColor"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M15 4.5l-4 4l-4 1.5l-1.5 1.5l7 7l1.5 -1.5l1.5 -4l4 -4"></path>
+                <path d="M9 15l-4.5 4.5"></path>
+                <path d="M14.5 4l5.5 5.5"></path>
+              </svg>
+            )}
+            <span className="sr-only">Copy to clipboard</span>
+          </button> */}
             <button onClick={handlePreview}>
               {preview ? (
                 <svg

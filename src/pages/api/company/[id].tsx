@@ -5,6 +5,7 @@ import type {
 
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
+import balaclava from "app.config.mjs";
 
 export const config = {
   runtime: "edge",
@@ -60,7 +61,7 @@ export default async function handler(req: NextRequest) {
       <div
         style={{
           display: "flex",
-          backgroundImage: "url(https://balaclava.vercel.app/ff.png)",
+          backgroundImage: `url(${balaclava.url}/ff.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

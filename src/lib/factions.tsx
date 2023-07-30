@@ -31,10 +31,12 @@ export async function getFactionBanner(id: string): Promise<string> {
   const fallbackUrl = `${balaclava.url}/banners/1.png`;
   const bannerUrl = `${balaclava.url}/factions/${id}/banner.png`;
 
+  // Check if the logo exists and the faction is whitelisted, otherwise return the fallback
   try {
     const res = await fetch(bannerUrl);
-    const blob = await res.blob();
-    return URL.createObjectURL(blob);
+    if (res.status === 200 && whitelisted.getAll.includes(id)) {
+      return bannerUrl;
+    }
   } catch (e) {
     console.error(`Error fetching faction banner for ${id}: ${e}`);
   }
@@ -43,12 +45,14 @@ export async function getFactionBanner(id: string): Promise<string> {
 
 export async function getFactionLogo(id: string): Promise<string> {
   const fallbackUrl = `${balaclava.url}/logos/1.png`;
-  const logoUrl = `${balaclava.url}/factions/${id}/logo.png`;
+  const logoUrl = `${balaclava.url}/factions/${id}/logo.svg`;
 
+  // Check if the logo exists and the faction is whitelisted, otherwise return the fallback
   try {
     const res = await fetch(logoUrl);
-    const blob = await res.blob();
-    return URL.createObjectURL(blob);
+    if (res.status === 200 && whitelisted.getAll.includes(id)) {
+      return logoUrl;
+    }
   } catch (e) {
     console.error(`Error fetching faction logo for ${id}: ${e}`);
   }

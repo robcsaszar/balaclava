@@ -2,6 +2,7 @@
 
 import { ImageResponse } from "@vercel/og";
 import type { PlayerInformation } from "../../common/types";
+import balaclava from "app.config.mjs";
 
 export const config = {
   runtime: "edge",
@@ -24,7 +25,7 @@ export default async function handler() {
       <div
         style={{
           display: "flex",
-          backgroundImage: "url(https://balaclava.vercel.app/906148.png)",
+          backgroundImage: `url(${balaclava.url}/906148.png)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

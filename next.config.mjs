@@ -14,7 +14,7 @@ const config = {
     defaultLocale: "en",
   },
   images: {
-    domains: ["balaclava.app", "balaclava.vercel.app"],
+    domains: ["balaclava.app"],
   },
 };
 export default config;

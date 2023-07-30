@@ -19,6 +19,9 @@ export const config = {
   runtime: "edge",
 };
 
+const BANNER_WIDTH = 600;
+const BANNER_HEIGHT = 100;
+
 const Inter_Bold = fetch(
   new URL("../../../assets/fonts/Inter-Bold.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
@@ -117,7 +120,7 @@ export default async function handler(req: NextRequest) {
   // Split the encoded stats into an array
   const featuredStats = searchParams.get("stats")?.split(",") ?? [];
   const feats: JSX.Element[] = [];
-  const personalstats = await getUserPersonalStats(user);
+  const personalStats = await getUserPersonalStats(user);
 
   if (!featuredStats) return;
 
@@ -125,9 +128,9 @@ export default async function handler(req: NextRequest) {
     let statValue = 0;
 
     if (specialStats[stat]) {
-      statValue = specialStats[stat]?.calculate(personalstats) ?? 0;
+      statValue = specialStats[stat]?.calculate(personalStats) ?? 0;
     } else {
-      statValue = personalstats[stat] ?? 0;
+      statValue = personalStats[stat] ?? 0;
     }
 
     if (i > 3) return;
@@ -158,6 +161,8 @@ export default async function handler(req: NextRequest) {
         }`}
       >
         <img
+          width={BANNER_WIDTH}
+          height={BANNER_HEIGHT}
           src={factionBanner}
           alt={`Faction image for faction ${faction.name}`}
         />
@@ -234,13 +239,13 @@ export default async function handler(req: NextRequest) {
       </div>
     ),
     {
-      width: 600,
-      height: 100,
+      width: BANNER_WIDTH,
+      height: BANNER_HEIGHT,
       status: 200,
       // debug: true,
       headers: {
         "Content-Type": "image/png",
-        "Cache-Control": "s-maxage=1, stale-while-revalidate=59",
+        "Cache-Control": "s-maxAge=1, stale-while-revalidate=59",
       },
       fonts: [
         {

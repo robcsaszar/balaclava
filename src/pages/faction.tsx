@@ -6,6 +6,7 @@ import FactionLogo from "@/ui/faction-logo";
 import Output from "@/ui/output";
 import Rounded from "@/ui/rounded";
 import StatsCombobox from "@/ui/stats-combo-box";
+import balaclava from "app.config.mjs";
 import { labeledStats } from "@/lib/personal-stats";
 import { useState } from "react";
 import { whitelisted } from "@/lib/factions";
@@ -63,32 +64,8 @@ export default function Faction() {
     setDaysInFaction(daysInFaction);
   };
 
-  // const buildUrl = () => {
-  //   let url = `https://balaclava.app/api/faction/${factionId}?user=${userId}`;
-  //   if (stats.length > 0) {
-  //     url += `&stats=${stats}`;
-  //   }
-
-  //   if (align !== "center") {
-  //     url += `&align=${align}`;
-  //   }
-
-  //   if (rounded) {
-  //     url += `&rounded=${rounded}`;
-  //   }
-
-  //   if (!factionLogo) {
-  //     url += `&factionLogo=${factionLogo}`;
-  //   }
-
-  //   if (!daysInFaction) {
-  //     url += `&daysInFaction=${daysInFaction}`;
-  //   }
-
-  //   return url;
-  // };
   const buildUrl = () => {
-    const baseUrl = new URL("https://balaclava.app/");
+    const baseUrl = new URL(balaclava.url);
     baseUrl.pathname = `api/faction/${factionId}`;
     baseUrl.searchParams.append("user", userId);
 

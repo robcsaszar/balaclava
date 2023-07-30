@@ -1,4 +1,5 @@
 import type { FactionInformation } from "@/common/types";
+import balaclava from "app.config.mjs";
 
 export const whitelisted = {
   getMemberStats: (id: string) =>
@@ -27,35 +28,29 @@ export async function getFactionInfo(
 }
 
 export async function getFactionBanner(id: string): Promise<string> {
-  let srcUrl =
-    "https://generative-placeholders.glitch.me/image?width=600&height=100&style=circles&colors=62";
-  const fetchUrl = new URL(
-    `../../../assets/factions/${id}/banner.png`,
-    import.meta.url
-  );
+  const fallbackUrl = `${balaclava.url}/banners/1.png`;
+  const bannerUrl = `${balaclava.url}/factions/${id}/banner.png`;
+
   try {
-    const res = await fetch(fetchUrl);
+    const res = await fetch(bannerUrl);
     const blob = await res.blob();
-    srcUrl = URL.createObjectURL(blob);
+    return URL.createObjectURL(blob);
   } catch (e) {
     console.error(`Error fetching faction banner for ${id}: ${e}`);
   }
-  return srcUrl;
+  return fallbackUrl;
 }
 
 export async function getFactionLogo(id: string): Promise<string> {
-  let srcUrl =
-    "https://generative-placeholders.glitch.me/image?width=500&height=500&style=mondrian";
-  const fetchUrl = new URL(
-    `../../../assets/factions/${id}/logo.png`,
-    import.meta.url
-  );
+  const fallbackUrl = `${balaclava.url}/logos/1.png`;
+  const logoUrl = `${balaclava.url}/factions/${id}/logo.png`;
+
   try {
-    const res = await fetch(fetchUrl);
+    const res = await fetch(logoUrl);
     const blob = await res.blob();
-    srcUrl = URL.createObjectURL(blob);
+    return URL.createObjectURL(blob);
   } catch (e) {
     console.error(`Error fetching faction logo for ${id}: ${e}`);
   }
-  return srcUrl;
+  return fallbackUrl;
 }

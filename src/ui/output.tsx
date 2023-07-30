@@ -27,6 +27,7 @@ export default function Output(props: { url: string }) {
     setPreview(!preview);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handlePin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setPinned(!pinned);
@@ -65,7 +66,7 @@ export default function Output(props: { url: string }) {
                 height={100}
                 onError={() => setPreview(false)}
                 // debug="true"
-                fallback={`https://balaclava.app/33007.png`}
+                fallback="https://via.placeholder.com/600x100?text=Preview+not+available"
               />
             </div>
           )}
@@ -238,12 +239,12 @@ export default function Output(props: { url: string }) {
                 Copy the URL and add it to your TORN profile, forum signature,
                 or anywhere else you want to show off your live banner.
               </li>
-              <div className="inline-flex w-full items-center justify-center">
+              <li className="inline-flex w-full items-center justify-center">
                 <hr className="my-2 h-px w-72 border-0 bg-eminence-400/50" />
                 <span className="absolute left-1/2 -translate-x-1/2 select-none bg-eminence-900 px-3 font-medium text-eminence-200">
                   or
                 </span>
-              </div>
+              </li>
               <li>
                 <div className="">
                   <span>Click on the </span>

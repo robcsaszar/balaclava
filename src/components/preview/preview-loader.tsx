@@ -1,4 +1,3 @@
-import ContentLoader from "react-content-loader";
 import type { ImageProps } from "next/image";
 import React from "react";
 
@@ -6,7 +5,7 @@ type SkeletonLoaderProps = Pick<ImageProps, "width" | "height"> & {
   style?: React.CSSProperties;
 };
 
-export const SkeletonLoader = ({
+export const PreviewLoader = ({
   height,
   width,
   style,

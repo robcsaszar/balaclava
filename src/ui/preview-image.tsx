@@ -1,32 +1,32 @@
 import Image from "next/image";
 import type { ImageProps } from "next/image";
+import { PreviewError } from "@/components/preview/preview-error";
+import { PreviewLoader } from "@/components/preview/preview-loader";
 import React from "react";
-import { SkeletonLoader } from "@/components/skeleton-loader";
 
 type PreviewImageProps = ImageProps & {
-  fallback: string;
   debug?: string;
 };
 
 function PreviewImage({ src, ...props }: PreviewImageProps): JSX.Element {
   const [loading, setLoading] = React.useState(true);
-  const [onErrorSrc, setOnErrorSrc] = React.useState<string | undefined>(
-    undefined
-  );
+  const [error, setError] = React.useState(false);
 
-  function handleOnError(
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ): void {
-    console.log("handle on error");
-    if (e?.currentTarget?.src !== props.fallback) {
-      setOnErrorSrc(props.fallback);
-    }
+  function handleOnError(e: React.SyntheticEvent<HTMLImageElement, Event>) {
+    e.preventDefault();
+
+    console.error("Error loading image", src);
+    setLoading(false);
+    setError(true);
   }
 
   return (
-    <div style={{ position: "relative", maxWidth: props.width }}>
+    <div
+      className="relative"
+      style={{ maxWidth: props.width, height: props.height }}
+    >
       {loading === true && (
-        <SkeletonLoader
+        <PreviewLoader
           style={{
             position: "absolute",
             inset: 0,
@@ -34,17 +34,27 @@ function PreviewImage({ src, ...props }: PreviewImageProps): JSX.Element {
             borderRadius: "8px",
             overflow: "hidden",
           }}
-          height={props.height}
-          width={props.width}
         />
       )}
-      <Image
-        {...props}
-        src={onErrorSrc || src}
-        alt={props.alt || "Image preview"}
-        onLoadingComplete={() => !props.debug && setLoading(false)}
-        onError={(e) => handleOnError(e)}
-      />
+      {!loading && error ? (
+        <PreviewError
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: props.debug === "true" ? 99 : "auto",
+            borderRadius: "8px",
+            overflow: "hidden",
+          }}
+        />
+      ) : (
+        <Image
+          {...props}
+          src={src}
+          alt={props.alt || "Image preview"}
+          onLoadingComplete={() => !props.debug && setLoading(false)}
+          onError={(e) => handleOnError(e)}
+        />
+      )}
     </div>
   );
 }

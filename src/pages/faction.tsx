@@ -1,8 +1,10 @@
 // A page with a form to create a URL for the API at api/faction/[id].tsx
 
 import Alignment from "@/ui/alignment";
+import BackgroundImage from "@/assets/images/bg.jpg";
 import DaysInFaction from "@/ui/days-in-faction";
 import FactionLogo from "@/ui/faction-logo";
+import Image from "next/image";
 import Output from "@/ui/output";
 import Rounded from "@/ui/rounded";
 import StatsCombobox from "@/ui/stats-combo-box";
@@ -95,8 +97,8 @@ export default function Faction() {
   const url = buildUrl();
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center bg-eminence-950 p-4 text-eminence-100">
-      <main className="flex w-full flex-col items-center justify-center gap-2">
+    <div className="relative isolate flex min-h-screen flex-col justify-center bg-eminence-950 p-4 text-eminence-100">
+      <main className="z-10 flex w-full flex-col items-center justify-center gap-2">
         <h1 className="text-4xl font-extrabold tracking-tighter">Balaclava</h1>
         <p className="text-md">
           <strong>Customize</strong> your banner -&gt; get <strong>URL</strong>{" "}
@@ -248,7 +250,18 @@ export default function Faction() {
           {output && <Output url={url} />}
         </form>
       </main>
-      <div className="absolute inset-0 top-1/2 -z-10 bg-gradient-to-t from-eminence-800 to-eminence-700"></div>
+      <div className="fixed inset-0 isolate z-0">
+        <div className="absolute inset-0 z-20 bg-eminence-800 mix-blend-soft-light"></div>
+        <Image
+          src={BackgroundImage}
+          alt="Image of a derelict street"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          className="z-10 opacity-30 saturate-0 filter"
+        />
+        <div className="absolute inset-0 z-0 bg-eminence-950"></div>
+      </div>
     </div>
   );
 }

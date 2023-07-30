@@ -78,8 +78,8 @@ export default function StatsCombobox(props: {
           value={search}
           onChange={handleSearchChange}
           onKeyDown={handleKeyDown}
-          className="block w-full rounded-lg border border-eminence-700 bg-eminence-900 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity"
-          placeholder="Search for a stat"
+          className="block w-full rounded-lg border border-eminence-700 bg-eminence-950 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity"
+          placeholder="Search stats, e.g. 'Critical hits'"
         />
       </label>
       <div className="flex gap-2 font-mono text-sm text-eminence-200/40">
@@ -141,14 +141,14 @@ export default function StatsCombobox(props: {
           </>
         )}
       </div>
-      <div className="relative flex h-56 flex-col gap-4 overflow-auto rounded-lg bg-eminence-900/50 px-3 py-2">
+      <div className="relative flex h-56 flex-col gap-4 overflow-auto rounded-lg bg-eminence-800/50 px-3 py-2">
         {personalStatArray
           .filter((stat) => stat.toLowerCase().includes(search.toLowerCase()))
           .map((stat) => (
             <label
               key={stat}
               htmlFor={stat}
-              className="group flex cursor-pointer items-center gap-2 rounded-l-md rounded-r-full bg-persian-100/0 text-eminence-200/70 ring-4 ring-transparent transition-all duration-300 checked:text-persian-600 focus-within:-ml-3 focus-within:bg-persian-400/10 focus-within:pl-3 focus-within:ring-4 focus-within:ring-persian-400/10 hover:text-persian-200"
+              className="group flex cursor-pointer select-none items-center gap-2 rounded-l-md rounded-r-full bg-persian-100/0 text-eminence-200/70 ring-4 ring-transparent transition-all duration-300 checked:text-persian-600 focus-within:-ml-3 focus-within:bg-persian-400/10 focus-within:pl-3 focus-within:ring-4 focus-within:ring-persian-400/10 hover:text-persian-200"
             >
               <input
                 type="checkbox"

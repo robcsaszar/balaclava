@@ -1,16 +1,18 @@
 // A page with a form to create a URL for the API at api/faction/[id].tsx
 
+import { useEffect, useState } from "react";
+
 import Alignment from "@/ui/alignment";
 import BackgroundImage from "@/assets/images/bg.jpg";
 import DaysInFaction from "@/ui/days-in-faction";
 import FactionLogo from "@/ui/faction-logo";
 import Image from "next/image";
+import InputField from "@/components/input-field";
 import Output from "@/ui/output";
 import Rounded from "@/ui/rounded";
 import StatsCombobox from "@/ui/stats-combo-box";
 import balaclava from "app.config.mjs";
 import { labeledStats } from "@/lib/personal-stats";
-import { useState } from "react";
 import { whitelisted } from "@/lib/factions";
 
 function checkFactionId(id: string) {
@@ -22,6 +24,7 @@ function checkFactionId(id: string) {
 }
 
 export default function Faction() {
+  const [url, setUrl] = useState("");
   const [factionId, setFactionId] = useState("");
   const [allowed, setAllowed] = useState(false);
   const [userId, setUserId] = useState("");
@@ -32,17 +35,49 @@ export default function Faction() {
   const [factionLogo, setFactionLogo] = useState(true);
   const [daysInFaction, setDaysInFaction] = useState(true);
 
+  useEffect(() => {
+    const buildUrl = () => {
+      const baseUrl = new URL(balaclava.url);
+      baseUrl.pathname = `api/faction/${factionId}`;
+      baseUrl.searchParams.append("user", userId);
+
+      if (stats.length > 0) {
+        baseUrl.searchParams.append("stats", stats.join(","));
+      }
+
+      if (align !== "center") {
+        baseUrl.searchParams.append("align", align);
+      }
+
+      if (rounded) {
+        baseUrl.searchParams.append("rounded", rounded.toString());
+      }
+
+      if (!factionLogo) {
+        baseUrl.searchParams.append("factionLogo", factionLogo.toString());
+      }
+
+      if (!daysInFaction) {
+        baseUrl.searchParams.append("daysInFaction", daysInFaction.toString());
+      }
+
+      return baseUrl.toString();
+    };
+
+    setUrl(buildUrl());
+  }, [factionId, userId, stats, align, rounded, factionLogo, daysInFaction]);
+
   if (!labeledStats) {
     return <div>Loading stats...</div>;
   }
 
-  const handleFactionIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFactionId(e.target.value);
-    setAllowed(checkFactionId(e.target.value));
+  const handleFactionIdChange = (newValue: string) => {
+    setFactionId(newValue);
+    setAllowed(checkFactionId(newValue));
   };
 
-  const handleUserIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserId(e.target.value);
+  const handleUserIdChange = (newValue: string) => {
+    setUserId(newValue);
     setOutput(true);
   };
 
@@ -66,136 +101,42 @@ export default function Faction() {
     setDaysInFaction(daysInFaction);
   };
 
-  const buildUrl = () => {
-    const baseUrl = new URL(balaclava.url);
-    baseUrl.pathname = `api/faction/${factionId}`;
-    baseUrl.searchParams.append("user", userId);
-
-    if (stats.length > 0) {
-      baseUrl.searchParams.append("stats", stats.join(","));
-    }
-
-    if (align !== "center") {
-      baseUrl.searchParams.append("align", align);
-    }
-
-    if (rounded) {
-      baseUrl.searchParams.append("rounded", rounded.toString());
-    }
-
-    if (!factionLogo) {
-      baseUrl.searchParams.append("factionLogo", factionLogo.toString());
-    }
-
-    if (!daysInFaction) {
-      baseUrl.searchParams.append("daysInFaction", daysInFaction.toString());
-    }
-
-    return baseUrl.toString();
-  };
-
-  const url = buildUrl();
+  const fields = [
+    {
+      type: "text",
+      id: "factionId",
+      label: "Faction ID",
+      placeholder: "e.g. 33007",
+      onValueChange: handleFactionIdChange,
+      validationFunction: checkFactionId,
+    },
+    {
+      type: "text",
+      id: "userId",
+      label: "User ID",
+      placeholder: "e.g. 906148",
+      onValueChange: handleUserIdChange,
+    },
+  ];
 
   return (
     <div className="relative isolate flex min-h-screen flex-col justify-center bg-eminence-950 p-4 text-eminence-100">
-      <main className="z-10 flex w-full flex-col items-center justify-center gap-2">
-        <h1 className="text-4xl font-extrabold tracking-tighter">Balaclava</h1>
-        <p className="text-md">
-          <strong>Customize</strong> your banner -&gt; get <strong>URL</strong>{" "}
-          -&gt; use <strong>anywhere</strong>.
-        </p>
-        <form className="mt-12 flex w-full max-w-xl flex-col items-center justify-center gap-4">
-          <div className="w-full">
-            <label
-              htmlFor="factionId"
-              className={`flex flex-col gap-1 text-sm font-bold uppercase tracking-widest transition-colors focus-within:text-eminence-300 ${
-                allowed ? "text-emerald-300 focus-within:text-emerald-300" : ""
-              }`}
-            >
-              <div className="flex items-center gap-1">
-                Faction ID{" "}
-                {allowed ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-lock-open"
-                    width={16}
-                    height={16}
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M5 11m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
-                    <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                    <path d="M8 11v-5a4 4 0 0 1 8 0"></path>
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="icon icon-tabler icon-tabler-lock"
-                    width={16}
-                    height={16}
-                    viewBox="0 0 24 24"
-                    strokeWidth="2"
-                    stroke="currentColor"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
-                    <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
-                    <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
-                  </svg>
-                )}
-              </div>
-              <input
-                required
-                type="number"
-                pattern="\d*"
-                name="factionId"
-                id="factionId"
-                value={factionId}
-                onChange={handleFactionIdChange}
-                className={`block w-32 rounded-lg border border-eminence-700 bg-eminence-950 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity ${
-                  allowed
-                    ? "border-emerald-500/50 focus:border-emerald-500 focus:ring-emerald-500"
-                    : ""
-                }`}
-                min="1"
-                placeholder="e.g. 33007"
-              />
-            </label>
-          </div>
-          <div
-            className={`w-full ${
-              !allowed
-                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
-                : ""
-            }`}
-          >
-            <label
-              htmlFor="userId"
-              className="flex flex-col gap-1 text-sm font-bold uppercase tracking-widest transition-colors focus-within:text-eminence-300 "
-            >
-              User ID
-              <input
-                required
-                type="number"
-                pattern="\d*"
-                name="userId"
-                id="userId"
-                value={userId}
-                onChange={handleUserIdChange}
-                className="block w-48 rounded-lg border border-eminence-700 bg-eminence-950 p-2.5 text-sm text-eminence-50 transition-colors focus:border-eminence-500 focus:ring-eminence-500 focus:placeholder:opacity-25 focus:placeholder:transition-opacity disabled:opacity-50"
-                min="1"
-                placeholder="e.g. 906148"
-              />
-            </label>
-          </div>
+      <main className="z-10 flex w-full flex-col items-center justify-center gap-6">
+        <h1 className="text-4xl font-extrabold tracking-tighter">
+          Customize your faction banner
+        </h1>
+        <form className="flex w-full max-w-2xl flex-col items-center justify-center gap-4">
+          {fields.map((field) => (
+            <InputField
+              key={field.id}
+              type={field.type}
+              id={field.id}
+              label={field.label}
+              placeholder={field.placeholder}
+              onValueChange={field.onValueChange}
+              validationFunction={field.validationFunction}
+            />
+          ))}
           <div
             className={`flex w-full flex-col gap-1 ${
               !allowed

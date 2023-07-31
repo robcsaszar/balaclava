@@ -23,7 +23,7 @@ function PreviewImage({ src, ...props }: PreviewImageProps): JSX.Element {
   return (
     <div
       className="relative"
-      style={{ maxWidth: props.width, height: props.height }}
+      style={{ maxWidth: props.width, maxHeight: props.height }}
     >
       {loading === true && (
         <PreviewLoader

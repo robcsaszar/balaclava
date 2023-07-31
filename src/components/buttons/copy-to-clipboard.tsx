@@ -1,5 +1,5 @@
-import ClipBoardCheckIcon from "@/ui/icons/clipboard-check";
-import ClipBoardCopyIcon from "@/ui/icons/clipboard-copy";
+import ClipBoardCheckIcon from "@/ui/icons/icon-clipboard-check";
+import ClipBoardCopyIcon from "@/ui/icons/icon-clipboard-copy";
 import { useState } from "react";
 
 type Props = {
@@ -23,7 +23,7 @@ export default function CopyToClipboardButton({ outputRef }: Props) {
   return (
     <button
       onClick={copyToClipboard}
-      className={`transition-colors ${copied ? "text-emerald-500" : ""}`}
+      className={`group transition-colors ${copied ? "text-emerald-500" : ""}`}
     >
       {copied ? <ClipBoardCheckIcon /> : <ClipBoardCopyIcon />}
       <span className="sr-only">Copy to clipboard</span>

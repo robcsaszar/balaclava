@@ -1,5 +1,5 @@
-import HidePreviewIcon from "@/ui/icons/hide-preview";
-import ShowPreviewIcon from "@/ui/icons/show-preview";
+import HidePreviewIcon from "@/ui/icons/icon-hide-preview";
+import ShowPreviewIcon from "@/ui/icons/icon-show-preview";
 import { useState } from "react";
 
 type Props = {

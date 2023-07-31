@@ -1,4 +1,4 @@
-import ExternalLinkIcon from "@/ui/icons/external-link";
+import ExternalLinkIcon from "@/ui/icons/icon-external-link";
 
 export default function VisitUrlButton({ url }: { url: string }) {
   return (

@@ -258,7 +258,7 @@ export default function Faction() {
           layout="fill"
           objectFit="cover"
           quality={100}
-          className="z-10 opacity-30 saturate-0 filter"
+          className="z-10 opacity-50 saturate-0 filter"
         />
         <div className="absolute inset-0 z-0 bg-eminence-950"></div>
       </div>

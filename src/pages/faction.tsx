@@ -196,10 +196,14 @@ export default function Faction() {
         <Image
           src={BackgroundImage}
           alt="Image of a derelict street"
-          layout="fill"
-          objectFit="cover"
           quality={100}
+          fill
           className="z-10 opacity-50 saturate-0 filter"
+          placeholder="blur"
+          priority
+          style={{
+            objectFit: "cover",
+          }}
         />
         <div className="absolute inset-0 z-0 bg-eminence-950"></div>
       </div>

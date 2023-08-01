@@ -1,5 +1,3 @@
-// A page with a form to create a URL for the API at api/faction/[id].tsx
-
 import { useEffect, useState } from "react";
 
 import Alignment from "@/ui/alignment";
@@ -15,12 +13,10 @@ import balaclava from "app.config.mjs";
 import { labeledStats } from "@/lib/personal-stats";
 import { whitelisted } from "@/lib/factions";
 
+const whitelistedFactions = new Set(whitelisted.getAll);
+
 function checkFactionId(id: string) {
-  const faction = whitelisted.getAll.find((f) => f === id);
-  if (faction) {
-    return true;
-  }
-  return false;
+  return whitelistedFactions.has(id);
 }
 
 export default function Faction() {

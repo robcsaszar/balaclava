@@ -1,6 +1,7 @@
+import { memo, useState } from "react";
+
 import LockedIcon from "@/ui/icons/icon-locked";
 import UnlockedIcon from "@/ui/icons/icon-unlocked";
-import { useState } from "react";
 
 interface InputFieldProps {
   type: string;
@@ -11,7 +12,7 @@ interface InputFieldProps {
   validationFunction?: (value: string) => boolean;
 }
 
-export default function InputField({
+function InputField({
   type,
   id,
   label,
@@ -36,7 +37,7 @@ export default function InputField({
     <div className="self-start">
       <label
         htmlFor={id}
-        className={`flex flex-col gap-1 text-sm font-bold uppercase tracking-widest transition-colors duration-300 ${
+        className={`flex flex-col gap-1 font-bold uppercase tracking-widest transition-colors duration-300 ${
           isValid
             ? "text-emerald-500 focus-within:text-emerald-300"
             : "text-eminence-200 focus-within:text-eminence-300"
@@ -55,7 +56,7 @@ export default function InputField({
           id={id}
           value={value}
           onChange={handleChange}
-          className={`block w-48 rounded-lg border-0 bg-eminence-950 p-2.5 text-sm text-eminence-50 ring-2 transition-shadow duration-300 focus:ring-2  focus:placeholder:opacity-25 focus:placeholder:transition-opacity ${
+          className={`block w-48 rounded-lg border-0 bg-eminence-950 p-2.5 text-eminence-50 ring-2 transition-shadow duration-300 focus:ring-2  focus:placeholder:opacity-25 focus:placeholder:transition-opacity ${
             isValid
               ? "ring-emerald-800 focus:ring-emerald-500"
               : "ring-eminence-700 focus:ring-eminence-500"
@@ -67,3 +68,5 @@ export default function InputField({
     </div>
   );
 }
+
+export default memo(InputField);

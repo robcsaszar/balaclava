@@ -8,6 +8,7 @@ import Image from "next/image";
 import InputField from "@/components/input-field";
 import Output from "@/ui/output";
 import Rounded from "@/ui/rounded";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import StatsCombobox from "@/ui/stats-combo-box";
 import balaclava from "app.config.mjs";
 import { labeledStats } from "@/lib/personal-stats";
@@ -99,7 +100,7 @@ export default function Faction() {
 
   const fields = [
     {
-      type: "text",
+      type: "number",
       id: "factionId",
       label: "Faction ID",
       placeholder: "e.g. 33007",
@@ -107,7 +108,7 @@ export default function Faction() {
       validationFunction: checkFactionId,
     },
     {
-      type: "text",
+      type: "number",
       id: "userId",
       label: "User ID",
       placeholder: "e.g. 906148",
@@ -116,93 +117,95 @@ export default function Faction() {
   ];
 
   return (
-    <div className="relative isolate flex min-h-screen flex-col justify-center bg-eminence-950 p-4 text-eminence-100">
-      <main className="z-10 flex w-full flex-col items-center justify-center gap-6">
-        <h1 className="text-4xl font-extrabold tracking-tighter">
-          Customize your faction banner
-        </h1>
-        <form className="flex w-full max-w-2xl flex-col items-center justify-center gap-4">
-          {fields.map((field) => (
-            <InputField
-              key={field.id}
-              type={field.type}
-              id={field.id}
-              label={field.label}
-              placeholder={field.placeholder}
-              onValueChange={field.onValueChange}
-              validationFunction={field.validationFunction}
-            />
-          ))}
-          <div
-            className={`flex w-full flex-col gap-1 ${
-              !allowed
-                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
-                : ""
-            }`}
-          >
-            <StatsCombobox stats={stats} onChange={handleStatsChange} />
-          </div>
-          <div
-            className={`flex w-full flex-col ${
-              !allowed
-                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
-                : ""
-            }`}
-          >
-            <Alignment align={align} onChange={handleAlignChange} />
-          </div>
-          <div
-            className={`flex w-full flex-col items-start ${
-              !allowed
-                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
-                : ""
-            }`}
-          >
-            <Rounded rounded={rounded} onChange={handleRoundedChange} />
-          </div>
-          <div
-            className={`flex w-full flex-col items-start ${
-              !allowed
-                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
-                : ""
-            }`}
-          >
-            <FactionLogo
-              logo={factionLogo}
-              onChange={handleFactionLogoChange}
-            />
-          </div>
-          <div
-            className={`flex w-full flex-col items-start ${
-              !allowed
-                ? "pointer-events-none cursor-not-allowed select-none opacity-40"
-                : ""
-            }`}
-          >
-            <DaysInFaction
-              daysInFaction={daysInFaction}
-              onChange={handleDaysInFactionChange}
-            />
-          </div>
-          {output && <Output url={url} />}
-        </form>
-      </main>
-      <div className="fixed inset-0 isolate z-0">
-        <div className="absolute inset-0 z-20 bg-eminence-800 mix-blend-soft-light"></div>
-        <Image
-          src={BackgroundImage}
-          alt="Image of a derelict street"
-          quality={100}
-          fill
-          className="z-10 opacity-50 saturate-0 filter"
-          placeholder="blur"
-          priority
-          style={{
-            objectFit: "cover",
-          }}
-        />
-        <div className="absolute inset-0 z-0 bg-eminence-950"></div>
+    <ScrollArea className="h-screen">
+      <div className="relative isolate flex flex-col justify-center bg-eminence-950 p-4 text-eminence-100">
+        <main className="z-10 flex w-full flex-col items-center justify-center gap-6">
+          <h1 className="text-2xl font-extrabold tracking-tighter">
+            Customize your faction banner
+          </h1>
+          <form className="flex w-full max-w-2xl flex-col justify-center gap-4">
+            {fields.map((field) => (
+              <InputField
+                key={field.id}
+                type={field.type}
+                id={field.id}
+                label={field.label}
+                placeholder={field.placeholder}
+                onValueChange={field.onValueChange}
+                validationFunction={field.validationFunction}
+              />
+            ))}
+            <div
+              className={`flex w-full flex-col gap-1 ${
+                !allowed
+                  ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                  : ""
+              }`}
+            >
+              <StatsCombobox stats={stats} onChange={handleStatsChange} />
+            </div>
+            <div
+              className={`flex w-full flex-col ${
+                !allowed
+                  ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                  : ""
+              }`}
+            >
+              <Alignment align={align} onChange={handleAlignChange} />
+            </div>
+            <div
+              className={`flex w-full flex-col items-start ${
+                !allowed
+                  ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                  : ""
+              }`}
+            >
+              <Rounded rounded={rounded} onChange={handleRoundedChange} />
+            </div>
+            <div
+              className={`flex w-full flex-col items-start ${
+                !allowed
+                  ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                  : ""
+              }`}
+            >
+              <FactionLogo
+                logo={factionLogo}
+                onChange={handleFactionLogoChange}
+              />
+            </div>
+            <div
+              className={`flex w-full flex-col items-start ${
+                !allowed
+                  ? "pointer-events-none cursor-not-allowed select-none opacity-40"
+                  : ""
+              }`}
+            >
+              <DaysInFaction
+                daysInFaction={daysInFaction}
+                onChange={handleDaysInFactionChange}
+              />
+            </div>
+            {output && <Output url={url} />}
+          </form>
+        </main>
+        <div className="fixed inset-0 isolate z-0">
+          <div className="absolute inset-0 z-20 bg-eminence-800 mix-blend-soft-light"></div>
+          <Image
+            src={BackgroundImage}
+            alt="Image of a derelict street"
+            quality={100}
+            fill
+            className="z-10 opacity-50 saturate-0 filter"
+            placeholder="blur"
+            priority
+            style={{
+              objectFit: "cover",
+            }}
+          />
+          <div className="absolute inset-0 z-0 bg-eminence-950"></div>
+        </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 }

@@ -11,7 +11,7 @@ const firaCode = Fira_Code({
   variable: "--font-fira",
 });
 
-import { trpc } from "../utils/trpc";
+import { trpc } from "../lib/utils/trpc";
 
 import "../styles/globals.css";
 

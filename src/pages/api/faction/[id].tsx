@@ -12,7 +12,7 @@ import { labeledStats, specialStats } from "@/lib/personal-stats";
 import FactionIcon from "@/ui/icon-faction";
 import { ImageResponse } from "@vercel/og";
 import type { NextRequest } from "next/server";
-import { formatNumberByDataType } from "@/utils/data-formatting";
+import { formatNumberByDataType } from "@/lib/utils/data-formatting";
 import { getUserPersonalStats } from "@/lib/users";
 
 export const config = {

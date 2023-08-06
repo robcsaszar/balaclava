@@ -20,7 +20,7 @@ const alternativeSteps = [
 
 export default function HowToUse() {
   return (
-    <details className="text-sm">
+    <details className="text-sm max-w-lg">
       <summary className="group flex cursor-pointer items-center gap-1 py-1 font-semibold text-eminence-300 transition-colors duration-300 hover:text-eminence-200">
         <HelpIcon className="h-4 w-4" />
         <span>How to use</span>

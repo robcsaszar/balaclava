@@ -113,14 +113,14 @@ export default function StatsCombobox(props: {
             return 0;
           })
           .map((stat) => (
-            <div key={stat} className="flex items-center space-x-2 hover:bg-eminence-500/30 px-3 py-2 parent text-eminence-100">
+            <div key={stat} className="flex xs:items-center space-x-2 hover:bg-eminence-500/30 px-3 py-2 parent text-eminence-100 items-start">
               <Checkbox
                 id={stat}
                 onCheckedChange={(checked: boolean) => handleCheckedChange(checked, stat)}
                 checked={selected.includes(stat)}
                 disabled={selected.length >= MAX_STATS && !selected.includes(stat)}
               />
-              <label htmlFor={stat} className="leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex items-center justify-between grow parent-hover:text-eminence-200 peer-data-[state=checked]:text-eminence-100">
+              <label htmlFor={stat} className="leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-50 flex xs:items-center justify-between grow parent-hover:text-eminence-200 peer-data-[state=checked]:text-eminence-100 xs:flex-row flex-col items-start">
                 <span className="">{labeledStats[stat]?.label}</span>
                 <span className="text-sm font-mono text-eminence-300">{stat}</span>
               </label>

@@ -10,6 +10,7 @@ import Output from "@/ui/output";
 import Rounded from "@/ui/rounded";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import StatsCombobox from "@/ui/stats-combo-box";
+import _ from "lodash";
 import balaclava from "app.config.mjs";
 import { labeledStats } from "@/lib/personal-stats";
 import { whitelisted } from "@/lib/factions";
@@ -68,19 +69,19 @@ export default function Faction() {
     return <div>Loading stats...</div>;
   }
 
-  const handleFactionIdChange = (newValue: string) => {
+  const handleFactionIdChange = _.debounce((newValue: string) => {
     setFactionId(newValue);
     setAllowed(checkFactionId(newValue));
-  };
-
-  const handleUserIdChange = (newValue: string) => {
+  }, 500);
+  
+  const handleUserIdChange = _.debounce((newValue: string) => {
     setUserId(newValue);
     setOutput(true);
-  };
-
-  const handleStatsChange = (stats: string[]) => {
+  }, 500);
+  
+  const handleStatsChange = _.debounce((stats: string[]) => {
     setStats(stats);
-  };
+  }, 500);
 
   const handleAlignChange = (align: string) => {
     setAlign(align);
@@ -118,7 +119,7 @@ export default function Faction() {
 
   return (
     <ScrollArea className="h-screen">
-      <div className="relative isolate flex flex-col justify-center bg-eminence-950 p-4 text-eminence-100">
+      <div className="relative isolate flex flex-col justify-center bg-eminence-950 p-4 text-eminence-100 w-screen">
         <main className="z-10 flex w-full flex-col items-center justify-center gap-6">
           <h1 className="text-2xl font-extrabold tracking-tighter">
             Customize your faction banner
@@ -186,7 +187,7 @@ export default function Faction() {
                 onChange={handleDaysInFactionChange}
               />
             </div>
-            {output && <Output url={url} />}
+            {output && userId && <Output url={url} />}
           </form>
         </main>
         <div className="fixed inset-0 isolate z-0">

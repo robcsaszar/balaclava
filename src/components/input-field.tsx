@@ -3,7 +3,6 @@ import { memo, useState } from "react";
 import { InputFieldSizes } from "@/lib/constants";
 import LockedIcon from "@/ui/icons/icon-locked";
 import UnlockedIcon from "@/ui/icons/icon-unlocked";
-import { debounce } from "lodash";
 
 interface InputFieldProps {
   type: string;
@@ -32,20 +31,16 @@ function InputField({
   const [isValid, setIsValid] = useState(false);
 
   const sizeClass = {
-    [InputFieldSizes.SMALL]: "w-1/4",
-    [InputFieldSizes.MEDIUM]: "w-1/2",
-    [InputFieldSizes.LARGE]: "w-3/4",
+    [InputFieldSizes.SMALL]: "w-36",
+    [InputFieldSizes.MEDIUM]: "w-64",
+    [InputFieldSizes.LARGE]: "w-96",
     [InputFieldSizes.FULL]: "w-full",
   }[inputSize];
-
-  const debounceChange = debounce((newValue: string) => {
-    onValueChange(newValue);
-  }, 300);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
-    debounceChange(newValue);
+    onValueChange(newValue);
 
     if (validationFunction) {
       setIsValid(validationFunction(newValue));
@@ -59,7 +54,7 @@ function InputField({
         isValid
           ? "text-emerald-500 focus-within:text-emerald-300"
           : "text-eminence-300 focus-within:text-eminence-100"
-      }`}
+      } ${sizeClass}`}
     >
       <div className="flex items-center gap-1">
         <span>{label}</span>
@@ -78,7 +73,7 @@ function InputField({
           isValid
             ? "ring-emerald-800 focus:ring-emerald-500"
             : "ring-eminence-700 focus:ring-eminence-300"
-        } ${sizeClass}`}
+        }`}
         min="1"
         placeholder={placeholder}
         {...props}

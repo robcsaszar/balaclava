@@ -15,6 +15,9 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    screens: {
+      xs: "400px",
+    },
     extend: {
       fontFamily: {
         sans: ["var(--font-inter)"],

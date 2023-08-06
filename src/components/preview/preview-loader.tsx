@@ -6,8 +6,6 @@ type SkeletonLoaderProps = Pick<ImageProps, "width" | "height"> & {
 };
 
 export const PreviewLoader = ({
-  height,
-  width,
   style,
 }: SkeletonLoaderProps) => (
   <div

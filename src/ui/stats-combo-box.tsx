@@ -45,7 +45,7 @@ export default function StatsCombobox(props: {
   };
 
   const handleCheckedChange = (checked: boolean, value: string) => {
-    let newSelected = [...selected];
+    const newSelected = [...selected];
     if (checked) {
       newSelected.push(value);
     } else {

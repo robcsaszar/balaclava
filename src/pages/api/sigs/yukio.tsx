@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { ImageResponse } from "@vercel/og";
-import type { PlayerInformation } from "../../common/types";
+import type { PlayerInformation } from "../../../common/types";
 import balaclava from "app.config.mjs";
 
 export const config = {
@@ -9,7 +9,7 @@ export const config = {
 };
 
 const interFont = fetch(
-  new URL("../../assets/fonts/Inter-Bold.ttf", import.meta.url)
+  new URL("../../../assets/fonts/Inter-Bold.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
 const tornApi = `https://api.torn.com/user/?selections=profile&key=${process.env.NEXT_PUBLIC_TORN_PUBLIC_API_KEY}`;

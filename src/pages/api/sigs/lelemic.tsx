@@ -25,27 +25,33 @@ export default async function handler() {
       <div
         style={{
           display: "flex",
-          backgroundImage: `url(${balaclava.url}/lelemic.png)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
           width: 600,
           height: 100,
-          color: "white",
+          color: "#ffcfb0",
         }}
       >
-        <div tw="flex flex-col justify-between absolute bg-white inset-2 rounded-lg p-2 w-1/3 bg-opacity-20">
-          <div tw="flex w-full items-center justify-between text-xl tracking-tight">
+        <div
+          style={{
+            backgroundImage: `url(${balaclava.url}/lelemic.png)`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            width: 600,
+            height: 100,
+          }}
+        ></div>
+        <div tw="flex flex-col absolute bg-[#ff641d] left-2 top-2 bottom-2 rounded-lg p-2 bg-opacity-10">
+          <div tw="flex justify-between text-xl tracking-tight w-full flex-1">
             <span tw="">{torn.name}</span>
-            <span tw="px-1 bg-white bg-opacity-20 rounded-md ml-2">
+            <span tw="px-1 bg-[#ff641d] bg-opacity-20 rounded-md">
               {torn.level}
             </span>
           </div>
-          <div tw="flex w-full items-center mb-auto">
-            <span tw="text-sm opacity-75">{torn.rank}</span>
+          <div tw="flex items-center mb-auto opacity-75">
+            <span tw="text-sm">{torn.rank}</span>
           </div>
-          <div tw="flex w-full items-center">
-            <span tw="text-xs opacity-75">
+          <div tw="flex items-center opacity-50">
+            <span tw="text-xs">
               {torn.last_action.status} · {torn.status.state}
             </span>
           </div>
